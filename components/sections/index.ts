@@ -1,0 +1,8 @@
+export { Approach } from './Approach'
+export { Contact } from './Contact'
+export { CTA } from './CTA'
+export { Footer } from './Footer'
+export { Hero } from './Hero'
+export { ProofBar } from './ProofBar'
+export { Services } from './Services'
+export { WhyVyndra } from './WhyVyndra'
