@@ -19,7 +19,7 @@ export const Hero = () => {
         {!prefersReducedMotion && (
           <>
             <motion.div
-              className="absolute left-1/4 top-1/4 bg-blob-lg rounded-full bg-accent/20 blur-3xl"
+              className="absolute left-1/4 top-1/4 bg-blob-lg rounded-full bg-accent/20 blur-3xl will-change-transform"
               animate={{
                 x: [0, 100, 0],
                 y: [0, -50, 0],
@@ -32,7 +32,7 @@ export const Hero = () => {
               }}
             />
             <motion.div
-              className="absolute right-1/4 top-1/3 bg-blob-md rounded-full bg-cyan-500/10 blur-3xl"
+              className="absolute right-1/4 top-1/3 bg-blob-md rounded-full bg-cyan-500/10 blur-3xl will-change-transform"
               animate={{
                 x: [0, -80, 0],
                 y: [0, 80, 0],
@@ -45,7 +45,7 @@ export const Hero = () => {
               }}
             />
             <motion.div
-              className="absolute bottom-1/4 left-1/2 bg-blob-sm rounded-full bg-blue-500/10 blur-3xl"
+              className="absolute bottom-1/4 left-1/2 bg-blob-sm rounded-full bg-blue-500/10 blur-3xl will-change-transform"
               animate={{
                 x: [0, 60, 0],
                 y: [0, -60, 0],

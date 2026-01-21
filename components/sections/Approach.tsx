@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useScroll, useTransform, MotionValue } from 'framer-motion'
-import { useRef } from 'react'
+import { memo, useRef } from 'react'
 
 import { APPROACH_STEPS } from '@/constants'
 
@@ -222,6 +222,10 @@ const TimelineStep = ({
   )
 }
 
+TimelineStep.displayName = 'TimelineStep'
+
+const MemoizedTimelineStep = memo(TimelineStep)
+
 export const Approach = () => {
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -261,7 +265,7 @@ export const Approach = () => {
         {/* Timeline */}
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5 lg:gap-0">
           {APPROACH_STEPS.map((step, index) => (
-            <TimelineStep
+            <MemoizedTimelineStep
               key={step.title}
               step={step}
               index={index}

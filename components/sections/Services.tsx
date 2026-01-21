@@ -544,7 +544,7 @@ export const Services = () => {
 
       {/* Desktop Scroll Experience */}
       <div ref={containerRef} className="relative hidden lg:block" style={{ height: '500vh' }}>
-        <div className="sticky top-0 h-screen overflow-hidden bg-black">
+        <div className="sticky top-0 h-screen overflow-hidden bg-black will-change-transform">
           <div className="absolute inset-0">
             {!prefersReducedMotion && (
               <>

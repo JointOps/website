@@ -147,4 +147,33 @@
   .bg-blob-lg {
     @apply h-[400px] w-[400px] sm:h-[500px] sm:w-[500px] md:h-[600px] md:w-[600px] lg:h-[700px] lg:w-[700px] xl:h-[800px] xl:w-[800px];
   }
+
+  /* Performance Optimization: GPU-accelerated transforms */
+  .gpu-accelerated {
+    @apply will-change-transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* Optimized blur for performance */
+  .blur-optimized {
+    will-change: filter;
+    transform: translateZ(0);
+  }
+
+  /* Reduce blur intensity on low-end devices via media query */
+  @media (prefers-reduced-motion: reduce) {
+    .blur-3xl {
+      @apply blur-xl;
+    }
+
+    .blur-\[80px\] {
+      @apply blur-2xl;
+    }
+
+    .blur-\[60px\] {
+      @apply blur-xl;
+    }
+  }
 }
