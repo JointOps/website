@@ -1,27 +1,29 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
-export const useScrollDirection = () => {
-  const [scrollDirection, setScrollDirection] = useState<'up' | 'down' | null>(null)
-  const [lastScrollY, setLastScrollY] = useState(0)
+import type { ScrollDirection } from '@/types'
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY
+export const useScrollDirection = (): ScrollDirection => {
+  const [scrollDirection, setScrollDirection] = useState<ScrollDirection>(null)
+  const lastScrollY = useRef(0)
 
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setScrollDirection('down')
-      } else if (currentScrollY < lastScrollY) {
-        setScrollDirection('up')
-      }
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY
 
-      setLastScrollY(currentScrollY)
+    if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+      setScrollDirection('down')
+    } else if (currentScrollY < lastScrollY.current) {
+      setScrollDirection('up')
     }
 
+    lastScrollY.current = currentScrollY
+  }, [])
+
+  useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [lastScrollY])
+  }, [handleScroll])
 
   return scrollDirection
 }

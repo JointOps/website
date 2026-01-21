@@ -1,27 +1,27 @@
-import type { ApproachStep, NavLink, ProofMetric, Service } from '@/types'
+import type { ApproachStep, NavLink, ProofMetric, Service, SocialLinks } from '@/types'
 
-export const NAV_LINKS: NavLink[] = [
+export const NAV_LINKS: readonly NavLink[] = [
   { label: 'Services', href: '#services' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
-]
+] as const
 
-export const SOCIAL_LINKS = {
+export const SOCIAL_LINKS: SocialLinks = {
   twitter: 'https://twitter.com/vyndra',
   github: 'https://github.com/vyndra',
   linkedin: 'https://linkedin.com/company/vyndra',
-}
+} as const
 
-export const CONTACT_EMAIL = 'hello@vyndra.io'
+export const CONTACT_EMAIL = 'hello@vyndra.io' as const
 
-export const PROOF_METRICS: ProofMetric[] = [
+export const PROOF_METRICS: readonly ProofMetric[] = [
   { value: '10+', label: 'Mainnet Deployments' },
   { value: 'Zero', label: 'Security Incidents' },
   { value: 'Multiple', label: 'Hackathon Wins' },
   { value: '50K+', label: 'Requests/Second' },
-]
+] as const
 
-export const SERVICES: Service[] = [
+export const SERVICES: readonly Service[] = [
   {
     id: 'blockchain',
     title: 'Blockchain & Smart Contracts',
@@ -124,7 +124,7 @@ export const SERVICES: Service[] = [
   },
 ]
 
-export const APPROACH_STEPS: ApproachStep[] = [
+export const APPROACH_STEPS: readonly ApproachStep[] = [
   {
     title: 'Understand',
     description: "We ask the questions your last team didn't.",
@@ -145,4 +145,4 @@ export const APPROACH_STEPS: ApproachStep[] = [
     title: 'Evolve',
     description: "We don't disappear after launch.",
   },
-]
+] as const

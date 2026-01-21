@@ -2,8 +2,8 @@ export interface Service {
   id: string
   title: string
   tagline: string
-  description: string[]
-  features: string[]
+  description: readonly string[]
+  features: readonly string[]
 }
 
 export interface ContactFormData {
@@ -28,3 +28,23 @@ export interface ApproachStep {
 }
 
 export type FormStatus = 'idle' | 'loading' | 'success' | 'error'
+
+export type ScrollDirection = 'up' | 'down' | null
+
+export interface IconProps {
+  className?: string
+}
+
+export interface SocialLinks {
+  readonly twitter: string
+  readonly github: string
+  readonly linkedin: string
+}
+
+export type AnimationVariant = 'hidden' | 'visible'
+
+export interface ViewportConfig {
+  once: boolean
+  amount: number
+  margin: string
+}
