@@ -138,6 +138,82 @@ const ParticleField = ({ scrollProgress }: { scrollProgress: MotionValue<number>
   )
 }
 
+const DispersedParticle = ({
+  particle,
+  disperseProgress,
+}: {
+  particle: {
+    id: number
+    startX: number
+    startY: number
+    angle: number
+    distance: number
+    size: number
+    delay: number
+  }
+  disperseProgress: MotionValue<number>
+}) => {
+  const adjustedProgress = useTransform(disperseProgress, (value) => {
+    const delayed = Math.max(0, value - particle.delay)
+    return Math.min(1, delayed * (1 + particle.delay))
+  })
+
+  const x = useTransform(
+    adjustedProgress,
+    [0, 1],
+    [particle.startX, particle.startX + Math.cos(particle.angle) * particle.distance]
+  )
+  const y = useTransform(
+    adjustedProgress,
+    [0, 1],
+    [particle.startY, particle.startY + Math.sin(particle.angle) * particle.distance]
+  )
+  const opacity = useTransform(adjustedProgress, [0, 0.2, 0.5, 1], [0, 0.8, 0.6, 0])
+  const scale = useTransform(adjustedProgress, [0, 0.3, 1], [0.5, 1.2, 0.2])
+
+  return (
+    <motion.div
+      className="absolute rounded-full bg-accent shadow-[0_0_8px_rgba(99,102,241,0.6)]"
+      style={{
+        left: 0,
+        top: 0,
+        width: particle.size,
+        height: particle.size,
+        x,
+        y,
+        opacity,
+        scale,
+      }}
+    />
+  )
+}
+
+const DispersedParticles = ({ disperseProgress }: { disperseProgress: MotionValue<number> }) => {
+  const particles = useMemo(() => {
+    const count = 40
+    return Array.from({ length: count }, (_, i) => {
+      const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.4
+      return {
+        id: i,
+        startX: 0,
+        startY: 0,
+        angle,
+        distance: 150 + Math.random() * 250,
+        size: Math.random() * 3 + 2,
+        delay: Math.random() * 0.3,
+      }
+    })
+  }, [])
+
+  return (
+    <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-visible">
+      {particles.map((particle) => (
+        <DispersedParticle key={particle.id} particle={particle} disperseProgress={disperseProgress} />
+      ))}
+    </div>
+  )
+}
+
 const ServiceDisplay = ({
   service,
   index,
@@ -150,14 +226,33 @@ const ServiceDisplay = ({
   const prefersReducedMotion = usePrefersReducedMotion()
   const IconComponent = iconMap[service.id as keyof typeof iconMap]
   const isEven = index % 2 === 0
+  const isFirst = index === 0
+  const isLast = index === SERVICES.length - 1
 
   const serviceStart = index / SERVICES.length
   const serviceEnd = (index + 1) / SERVICES.length
   const serviceMid = (serviceStart + serviceEnd) / 2
 
   const opacity = useTransform(scrollProgress, (value) => {
-    if (index === 0 && value <= serviceStart) return 1
+    // First service: start at full opacity, fade out normally
+    if (isFirst) {
+      if (value <= serviceMid) return 1
+      if (value > serviceMid && value < serviceEnd) {
+        return 1 - (value - serviceMid) / (serviceEnd - serviceMid)
+      }
+      return 0
+    }
 
+    // Last service: fade in, then stay at full opacity (no fade out)
+    if (isLast) {
+      if (value < serviceStart) return 0
+      if (value >= serviceStart && value <= serviceMid) {
+        return (value - serviceStart) / (serviceMid - serviceStart)
+      }
+      return 1 // Stay visible
+    }
+
+    // Middle services: fade in and fade out
     if (value < serviceStart) return 0
     if (value >= serviceStart && value <= serviceMid) {
       return (value - serviceStart) / (serviceMid - serviceStart)
@@ -166,6 +261,17 @@ const ServiceDisplay = ({
       return 1 - (value - serviceMid) / (serviceEnd - serviceMid)
     }
     return 0
+  })
+
+  // Particle dispersion effect - only for middle services (not first or last)
+  const shouldDisperse = !isFirst && !isLast
+  const disperseProgress = useTransform(scrollProgress, (value) => {
+    if (!shouldDisperse) return 0
+    if (value <= serviceMid) return 0
+    if (value > serviceMid && value < serviceEnd) {
+      return (value - serviceMid) / (serviceEnd - serviceMid)
+    }
+    return 1
   })
 
   const scale = useTransform(opacity, [0, 1], [0.95, 1])
@@ -227,6 +333,9 @@ const ServiceDisplay = ({
         scale,
       }}
     >
+      {/* Particle dispersion effect for middle services */}
+      {!prefersReducedMotion && shouldDisperse && <DispersedParticles disperseProgress={disperseProgress} />}
+
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{
