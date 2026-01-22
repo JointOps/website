@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 import { inter, spaceGrotesk } from '@/lib/fonts'
 import { ErrorBoundary, SkipToContent, BackToTop } from '@/components/ui'
+import { StructuredData } from '@/components/StructuredData'
 
 import './globals.css'
 
@@ -40,6 +41,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+      <head>
+        <StructuredData />
+      </head>
       <body className="bg-background font-sans text-foreground antialiased">
         <ErrorBoundary>
           <SkipToContent />

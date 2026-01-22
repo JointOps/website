@@ -40,24 +40,63 @@ export const BackToTop = () => {
       {isVisible && (
         <motion.button
           onClick={scrollToTop}
-          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 md:bottom-8 md:right-8 z-50 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border-2 border-accent bg-accent text-black shadow-[0_8px_32px_rgba(0,0,0,0.8)] backdrop-blur-md transition-all duration-300 hover:shadow-[0_0_30px_rgba(99,102,241,0.6)]"
-          initial={{ opacity: 0, scale: 0.8, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.8, y: 20 }}
-          whileHover={{ scale: 1.1, y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          transition={{ duration: 0.3 }}
+          className="group fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full border border-accent/20 bg-gradient-to-br from-accent/10 to-accent/5 backdrop-blur-2xl transition-all duration-500 hover:border-accent/40 hover:from-accent/20 hover:to-accent/10"
+          initial={{ opacity: 0, scale: 0.8, rotate: -180 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          exit={{ opacity: 0, scale: 0.8, rotate: 180 }}
+          whileHover={{ scale: 1.1, y: -4 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           aria-label="Back to top"
         >
-          <svg
-            className="icon-sm"
+          {/* Animated pulsing ring */}
+          <motion.div
+            className="absolute inset-0 rounded-full border-2 border-accent/30"
+            animate={{
+              scale: [1, 1.3, 1.3],
+              opacity: [0.5, 0, 0],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: 'easeOut',
+            }}
+          />
+
+          {/* Glowing background on hover */}
+          <div className="absolute inset-0 rounded-full bg-accent/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100" />
+
+          {/* Arrow with animation */}
+          <motion.svg
+            className="relative h-5 w-5 text-accent transition-colors duration-500 group-hover:text-white"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
             strokeWidth={2.5}
+            animate={{
+              y: [0, -2, 0],
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-          </svg>
+          </motion.svg>
+
+          {/* Shimmer effect */}
+          <motion.div
+            className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100"
+            animate={{
+              rotate: [0, 360],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+          />
         </motion.button>
       )}
     </AnimatePresence>

@@ -74,8 +74,6 @@ const TimelineStep = ({
 
   // Calculate activation threshold for this step
   // Spread activations evenly across scroll range with proper timing
-  const isLastStep = index === total - 1
-
   // Each step gets an equal portion of the scroll range
   const stepDuration = 1 / total // 0.2 for 5 steps
   const activationStart = index * stepDuration
@@ -140,7 +138,7 @@ const TimelineStep = ({
   const titleColor = useTransform(
     activationProgress,
     [0, 1],
-    ['#FAFAFA', '#6366F1']
+    ['#A78BFA', '#6366F1']
   )
 
   return (
@@ -153,7 +151,7 @@ const TimelineStep = ({
     >
       {/* Step Number & Icon */}
       <motion.div
-        className="relative z-10 flex icon-xl items-center justify-center rounded-2xl border-2"
+        className="relative z-10 flex h-20 w-20 items-center justify-center rounded-2xl border-2"
         style={{
           borderColor: iconBorderColor,
           backgroundColor: iconBgColor,
@@ -161,7 +159,6 @@ const TimelineStep = ({
         }}
       >
         <motion.div
-          className="icon-md"
           style={{
             color: iconColor,
           }}
@@ -198,7 +195,7 @@ const TimelineStep = ({
       >
         {/* Step Number Badge */}
         <motion.div
-          className="mb-3 inline-flex h-7 w-7 items-center justify-center rounded-lg text-xs font-bold"
+          className="mb-3 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sm font-bold"
           style={{
             backgroundColor: badgeBgColor,
             color: badgeColor,
@@ -209,9 +206,12 @@ const TimelineStep = ({
 
         {/* Title */}
         <motion.h3
-          className="mb-2 font-display text-display-small font-bold"
+          className="mb-2 font-display text-xl font-bold lg:text-2xl"
           style={{
             color: titleColor,
+            wordBreak: 'keep-all',
+            hyphens: 'none',
+            overflow: 'hidden',
           }}
         >
           {step.title}
@@ -408,7 +408,7 @@ export const Approach = () => {
             </motion.div>
 
             {/* Timeline */}
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5 lg:gap-6">
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5 lg:gap-8">
               {APPROACH_STEPS.map((step, index) => (
                 <MemoizedTimelineStep
                   key={step.title}

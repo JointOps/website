@@ -119,36 +119,51 @@ export const CTA = () => {
           >
             <Link href="#contact">
               <motion.button
-                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border-2 border-accent bg-accent px-10 py-5 font-display text-lg font-semibold text-black transition-all duration-300 hover:shadow-[0_0_40px_rgba(99,102,241,0.5)] md:px-12 md:py-6 md:text-xl"
-                whileHover={{ scale: 1.02 }}
+                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-2xl border border-white/[0.12] bg-white/[0.03] px-12 py-6 font-display text-lg font-medium text-white/90 backdrop-blur-xl transition-all duration-500 hover:border-white/[0.2] hover:bg-white/[0.06] md:px-14 md:py-7 md:text-xl"
+                whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               >
-                {/* Shimmer effect on hover */}
+                {/* Inner glow effect */}
+                <div className="absolute inset-[1px] rounded-[15px] bg-gradient-to-br from-white/[0.03] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+                {/* Subtle shimmer on hover */}
                 <motion.div
-                  className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                  className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/[0.05] to-transparent opacity-0 group-hover:opacity-100"
+                  initial={false}
                   animate={{
                     translateX: ['-100%', '200%'],
                   }}
                   transition={{
-                    duration: 2,
+                    duration: 1.5,
                     repeat: Infinity,
-                    repeatDelay: 1,
-                    ease: 'linear',
+                    repeatDelay: 0.5,
+                    ease: 'easeInOut',
                   }}
                 />
-                <span className="relative">Start the Conversation</span>
+
+                <span className="relative tracking-wide">Start the Conversation</span>
+
+                {/* Elegant arrow */}
                 <motion.svg
-                  className="relative h-6 w-6"
+                  className="relative h-5 w-5 text-white/70 transition-colors duration-500 group-hover:text-white/90"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                   strokeWidth={2}
-                  initial={{ x: 0 }}
-                  whileHover={{ x: 4 }}
-                  transition={{ duration: 0.2 }}
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    repeatDelay: 3,
+                    ease: 'easeInOut',
+                  }}
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </motion.svg>
+
+                {/* Corner accent */}
+                <div className="absolute bottom-0 right-0 h-8 w-8 rounded-br-2xl bg-gradient-to-tl from-white/[0.03] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               </motion.button>
             </Link>
           </motion.div>

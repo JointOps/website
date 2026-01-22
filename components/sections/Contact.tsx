@@ -44,55 +44,159 @@ export const Contact = () => {
   // Success State
   if (status === 'success') {
     return (
-      <section id="contact" className="relative overflow-hidden bg-black section-padding px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl">
+      <section id="contact" className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#000000] px-6 py-24 lg:px-8">
+        {/* Ultra dark background with subtle grid */}
+        <div className="absolute inset-0">
+          {/* Subtle grid pattern */}
+          <div
+            className="absolute inset-0 opacity-[0.02]"
+            style={{
+              backgroundImage: 'linear-gradient(rgba(124, 58, 237, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(124, 58, 237, 0.1) 1px, transparent 1px)',
+              backgroundSize: '50px 50px',
+            }}
+          />
+
+          {/* Subtle dark gradient orbs */}
           <motion.div
-            className="relative overflow-hidden rounded-3xl border border-accent/30 bg-gradient-to-br from-accent/10 via-black to-cyan-500/5 p-12 text-center backdrop-blur-sm lg:p-16"
-            initial={{ scale: 0.9, opacity: 0 }}
+            className="absolute left-1/4 top-1/3 h-[600px] w-[600px] rounded-full bg-accent/[0.03] blur-[120px]"
+            animate={{
+              scale: [1, 1.1, 1],
+              opacity: [0.03, 0.05, 0.03],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+        </div>
+
+        <div className="relative mx-auto max-w-4xl">
+          <motion.div
+            className="relative overflow-hidden rounded-2xl border border-white/[0.03] bg-gradient-to-b from-white/[0.01] to-black/50 p-16 text-center backdrop-blur-3xl lg:p-20"
+            initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.6, type: 'spring' }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
           >
-            {/* Success checkmark */}
+            {/* Subtle top border glow */}
+            <div className="absolute left-1/2 top-0 h-px w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
+
+            {/* Minimalist floating particles */}
+            <div className="absolute inset-0">
+              {[...Array(8)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute h-[2px] w-[2px] rounded-full bg-accent/40"
+                  style={{
+                    left: '50%',
+                    top: '35%',
+                  }}
+                  initial={{ scale: 0, x: 0, y: 0, opacity: 0 }}
+                  animate={{
+                    scale: [0, 1, 0],
+                    x: Math.cos((i / 8) * Math.PI * 2) * 120,
+                    y: Math.sin((i / 8) * Math.PI * 2) * 120,
+                    opacity: [0, 0.6, 0],
+                  }}
+                  transition={{
+                    duration: 2.5,
+                    delay: 0.6 + i * 0.1,
+                    ease: 'easeOut',
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Elegant checkmark */}
             <motion.div
-              className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-accent"
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ duration: 0.6, delay: 0.2, type: 'spring', bounce: 0.5 }}
+              className="relative mx-auto mb-12 flex h-28 w-28 items-center justify-center"
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              <svg className="h-10 w-10 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-              </svg>
+              {/* Single subtle pulse ring */}
+              <motion.div
+                className="absolute inset-0 rounded-full border border-accent/20"
+                animate={{
+                  scale: [1, 1.5],
+                  opacity: [0.3, 0],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: 'easeOut',
+                }}
+              />
+
+              {/* Dark circle with subtle gradient */}
+              <div className="relative flex h-28 w-28 items-center justify-center rounded-full border border-white/[0.06] bg-gradient-to-br from-white/[0.03] to-black/80 shadow-2xl shadow-black/50">
+                {/* Inner glow */}
+                <div className="absolute inset-2 rounded-full bg-accent/5 blur-xl" />
+
+                <motion.svg
+                  className="relative h-14 w-14 text-white/90"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <motion.path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
+                  />
+                </motion.svg>
+              </div>
             </motion.div>
 
+            {/* Minimalist typography */}
             <motion.h2
-              className="mb-4 font-display text-display-medium font-bold text-foreground"
+              className="mb-3 font-display text-5xl font-bold tracking-tight text-white/95 lg:text-6xl"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             >
               Message Received
             </motion.h2>
 
-            <motion.p
-              className="mb-8 text-body-large text-muted"
+            <motion.div
+              className="mb-16 space-y-2"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              We&apos;ll get back to you within 24 hours. Usually much sooner.
-            </motion.p>
+              <p className="text-lg text-white/40 lg:text-xl">
+                We&apos;ll get back to you within 24 hours.
+              </p>
+              <p className="text-base text-white/25">
+                Usually much sooner.
+              </p>
+            </motion.div>
 
+            {/* Sophisticated minimal button */}
             <motion.button
               onClick={() => setStatus('idle')}
-              className="inline-flex items-center gap-2 rounded-full border-2 border-accent/20 bg-accent/10 px-6 py-3 font-semibold text-accent transition-all hover:border-accent hover:bg-accent hover:text-black"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-white/[0.08] bg-white/[0.02] px-8 py-4 font-medium text-white/80 transition-all duration-300 hover:border-white/[0.15] hover:bg-white/[0.04]"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.7, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              Send Another Message
+              <svg className="h-4 w-4 text-white/60 transition-colors group-hover:text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              <span className="text-sm tracking-wide">Send Another Message</span>
             </motion.button>
+
+            {/* Subtle corner accent */}
+            <div className="absolute bottom-0 right-0 h-32 w-32 bg-gradient-to-tl from-accent/[0.02] to-transparent" />
           </motion.div>
         </div>
       </section>
@@ -276,20 +380,22 @@ export const Contact = () => {
                 </AnimatePresence>
               </div>
 
-              {/* Error Message */}
-              <AnimatePresence mode="wait">
-                {status === 'error' && (
-                  <motion.div
-                    className="rounded-lg border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-400"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    Something went wrong. Try again or email us directly at {CONTACT_EMAIL}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {/* Status Messages with ARIA live region */}
+              <div role="status" aria-live="polite" aria-atomic="true">
+                <AnimatePresence mode="wait">
+                  {status === 'error' && (
+                    <motion.div
+                      className="rounded-lg border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-400"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      Something went wrong. Try again or email us directly at {CONTACT_EMAIL}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
 
               {/* Submit Button */}
               <motion.button
