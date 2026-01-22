@@ -20,36 +20,10 @@ export const ProofBar = () => {
 
   return (
     <section className="relative overflow-hidden bg-black section-padding-sm">
-      {/* Animated gradient background */}
+      {/* Static gradient background - OPTIMIZED */}
       <div className="absolute inset-0">
-        {!prefersReducedMotion && (
-          <>
-            <motion.div
-              className="absolute left-0 top-0 h-full w-1/3 bg-gradient-to-r from-accent/20 via-accent/10 to-transparent blur-3xl"
-              animate={{
-                x: [-100, 100, -100],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            />
-            <motion.div
-              className="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-cyan-500/20 via-cyan-500/10 to-transparent blur-3xl"
-              animate={{
-                x: [100, -100, 100],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: 10,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            />
-          </>
-        )}
+        <div className="absolute left-0 top-0 h-full w-1/3 bg-gradient-to-r from-accent/15 via-accent/8 to-transparent blur-3xl opacity-40" />
+        <div className="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-cyan-500/15 via-cyan-500/8 to-transparent blur-3xl opacity-40" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/5 to-transparent" />
       </div>
 
@@ -86,7 +60,7 @@ export const ProofBar = () => {
                   }}
                 />
 
-                {/* Shimmer effect */}
+                {/* Shimmer effect - OPTIMIZED: increased delay, slower animation */}
                 {!prefersReducedMotion && (
                   <motion.div
                     className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent"
@@ -94,9 +68,9 @@ export const ProofBar = () => {
                       translateX: ['-100%', '200%'],
                     }}
                     transition={{
-                      duration: 3,
+                      duration: 4,
                       repeat: Infinity,
-                      repeatDelay: 5,
+                      repeatDelay: 8,
                       ease: 'linear',
                     }}
                   />
@@ -104,32 +78,31 @@ export const ProofBar = () => {
 
                 {/* Content */}
                 <div className="relative text-center">
-                  {/* Icon with glow */}
+                  {/* Icon with glow - OPTIMIZED: simplified entrance */}
                   <motion.div
-                    initial={{ scale: 0, rotate: -180 }}
-                    whileInView={{ scale: 1, rotate: 0 }}
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{
-                      duration: 0.6,
-                      delay: index * 0.1,
-                      type: 'spring',
-                      bounce: 0.4,
+                      duration: 0.4,
+                      delay: index * 0.08,
+                      ease: 'easeOut',
                     }}
                     className="relative mx-auto mb-4 flex icon-xl items-center justify-center sm:mb-6"
                   >
-                    {/* Pulsing glow */}
+                    {/* Pulsing glow - OPTIMIZED: slower, more subtle */}
                     <motion.div
                       className="absolute inset-0 rounded-full bg-accent/30 blur-xl"
                       animate={
                         !prefersReducedMotion
                           ? {
-                              scale: [1, 1.2, 1],
-                              opacity: [0.5, 0.8, 0.5],
+                              scale: [1, 1.15, 1],
+                              opacity: [0.4, 0.6, 0.4],
                             }
                           : {}
                       }
                       transition={{
-                        duration: 2,
+                        duration: 3,
                         repeat: Infinity,
                         ease: 'easeInOut',
                       }}

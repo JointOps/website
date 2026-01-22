@@ -33,53 +33,47 @@ export const Hero = () => {
 
         {!prefersReducedMotion && (
           <>
-            {/* Elegant primary blob with subtle movement */}
+            {/* Elegant primary blob with subtle movement - OPTIMIZED */}
             <motion.div
-              className="absolute left-1/4 top-1/4 bg-blob-lg rounded-full bg-accent/12 blur-[120px] will-change-transform"
+              className="absolute left-1/4 top-1/4 bg-blob-lg rounded-full bg-accent/12 blur-[80px] will-change-transform"
               animate={{
-                x: [0, 100, 0],
-                y: [0, -50, 0],
+                scale: [1, 1.15, 1],
+              }}
+              transition={{
+                duration: 40,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+
+            {/* Cyan accent - refined - OPTIMIZED */}
+            <motion.div
+              className="absolute right-1/4 top-1/3 bg-blob-lg rounded-full bg-cyan-500/10 blur-[80px] will-change-transform"
+              animate={{
                 scale: [1, 1.2, 1],
               }}
               transition={{
-                duration: 25,
+                duration: 45,
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}
             />
 
-            {/* Cyan accent - refined */}
+            {/* Deeper purple for sophistication - OPTIMIZED */}
             <motion.div
-              className="absolute right-1/4 top-1/3 bg-blob-lg rounded-full bg-cyan-500/10 blur-[120px] will-change-transform"
+              className="absolute right-1/3 bottom-1/4 bg-blob-lg rounded-full bg-purple-500/8 blur-[80px] will-change-transform"
               animate={{
-                x: [0, -80, 0],
-                y: [0, 60, 0],
-                scale: [1, 1.3, 1],
+                scale: [1, 1.18, 1],
               }}
               transition={{
-                duration: 30,
+                duration: 42,
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}
             />
 
-            {/* Deeper purple for sophistication */}
-            <motion.div
-              className="absolute right-1/3 bottom-1/4 bg-blob-lg rounded-full bg-purple-500/8 blur-[120px] will-change-transform"
-              animate={{
-                x: [0, -60, 0],
-                y: [0, 50, 0],
-                scale: [1, 1.25, 1],
-              }}
-              transition={{
-                duration: 28,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            />
-
-            {/* Sophisticated orbs floating system */}
-            {[...Array(12)].map((_, i) => (
+            {/* Sophisticated orbs floating system - OPTIMIZED: reduced from 12 to 6 */}
+            {[...Array(6)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute"
@@ -91,13 +85,12 @@ export const Hero = () => {
                 <motion.div
                   className="relative"
                   animate={{
-                    y: [0, -120 - (i % 3) * 20, 0],
-                    x: [0, (i % 2) * 30 - 15, 0],
+                    y: [0, -100 - (i % 3) * 15, 0],
                   }}
                   transition={{
-                    duration: 8 + i * 1.2,
+                    duration: 10 + i * 1.5,
                     repeat: Infinity,
-                    delay: i * 0.4,
+                    delay: i * 0.5,
                     ease: 'easeInOut',
                   }}
                 >

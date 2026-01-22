@@ -21,7 +21,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           'hover:scale-[1.02] active:scale-[0.98]',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background',
           variant === 'primary' &&
-            'bg-foreground text-background hover:bg-foreground/90 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100',
+            'bg-foreground text-background hover:bg-foreground/90 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_30px_rgba(255,255,255,0.25)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100',
           variant === 'secondary' &&
             'border border-foreground/20 bg-transparent text-foreground hover:border-foreground/40 hover:bg-foreground/5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100',
           variant === 'ghost' &&

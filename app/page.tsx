@@ -1,7 +1,8 @@
+import dynamic from 'next/dynamic'
+
 import { Header } from '@/components/layout'
 import {
   Approach,
-  Contact,
   CTA,
   Footer,
   Hero,
@@ -9,6 +10,11 @@ import {
   Services,
   WhyVyndra,
 } from '@/components/sections'
+
+// Code split Contact form - loads only when needed (performance optimization)
+const Contact = dynamic(() => import('@/components/sections').then(mod => ({ default: mod.Contact })), {
+  ssr: true, // Still render on server for SEO
+})
 
 export default function Home() {
   return (

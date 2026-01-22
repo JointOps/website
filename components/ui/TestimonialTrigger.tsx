@@ -17,8 +17,8 @@ export const TestimonialTrigger = ({ onClick, totalReviews, averageRating }: Tes
 
   useEffect(() => {
     const unsubscribe = scrollY.on('change', (latest) => {
-      // Show button after scrolling down 800px (after main hero/services sections)
-      setIsVisible(latest > 800)
+      // Show button after scrolling down 200px (early visibility for better social proof)
+      setIsVisible(latest > 200)
     })
 
     return () => unsubscribe()

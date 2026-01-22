@@ -131,3 +131,6 @@ Thumbs.db
 *.temp
 tmp/
 temp/
+
+# Documentation (internal notes)
+docs/
