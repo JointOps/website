@@ -6,13 +6,13 @@ import { PROOF_METRICS } from '@/constants'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 import { usePrefersReducedMotion } from '@/hooks'
 
-import { RocketIcon, ShieldIcon, TrophyIcon, ZapIcon } from '../icons/stat-icons'
+import { RocketIcon, ShieldIcon, StarIcon, TrophyIcon } from '../icons/stat-icons'
 
 const iconMap = {
-  'Mainnet Deployments': RocketIcon,
-  'Security Incidents': ShieldIcon,
-  'Hackathon Wins': TrophyIcon,
-  'Requests/Second': ZapIcon,
+  'Apps Handling Real Money': RocketIcon,
+  'Security Breaches Ever': ShieldIcon,
+  'Supporting Clients': TrophyIcon,
+  'Client Testimonials': StarIcon,
 }
 
 export const ProofBar = () => {

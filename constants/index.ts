@@ -15,10 +15,10 @@ export const SOCIAL_LINKS: SocialLinks = {
 export const CONTACT_EMAIL = 'hello@vyndra.io' as const
 
 export const PROOF_METRICS: readonly ProofMetric[] = [
-  { value: '10+', label: 'Mainnet Deployments' },
-  { value: 'Zero', label: 'Security Incidents' },
-  { value: 'Multiple', label: 'Hackathon Wins' },
-  { value: '50K+', label: 'Requests/Second' },
+  { value: '10+', label: 'Apps Handling Real Money' },
+  { value: 'Zero', label: 'Security Breaches Ever' },
+  { value: '3+ Years', label: 'Supporting Clients' },
+  { value: '69', label: 'Client Testimonials' },
 ] as const
 
 export const SERVICES: readonly Service[] = [

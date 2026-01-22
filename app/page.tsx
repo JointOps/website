@@ -10,6 +10,7 @@ import {
   Services,
   WhyVyndra,
 } from '@/components/sections'
+import { MobileActionBar } from '@/components/ui'
 
 // Code split Contact form - loads only when needed (performance optimization)
 const Contact = dynamic(() => import('@/components/sections').then(mod => ({ default: mod.Contact })), {
@@ -30,6 +31,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      <MobileActionBar />
     </>
   )
 }

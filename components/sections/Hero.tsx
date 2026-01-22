@@ -6,7 +6,7 @@ import { useRef } from 'react'
 
 import { usePrefersReducedMotion } from '@/hooks'
 
-import { AnimatedText, Button, FadeIn } from '../ui'
+import { Button, EmailCapture, FadeIn } from '../ui'
 
 export const Hero = () => {
   const prefersReducedMotion = usePrefersReducedMotion()
@@ -243,44 +243,36 @@ export const Hero = () => {
           </motion.div>
 
           <h1 className="font-display text-5xl font-bold leading-tight tracking-tight text-foreground md:text-7xl lg:text-8xl">
-            <AnimatedText text="We Build What Others" />
+            <span>We Build What</span>
             <br />
-            <span className="relative inline-block">
-              <span className="relative bg-gradient-to-r from-accent via-cyan-400 to-accent bg-clip-text text-transparent">
-                <AnimatedText text="Can't" delay={0.3} />
-                {/* Refined glow - subtle and sophisticated */}
-                <motion.div
-                  className="absolute inset-0 -z-10 blur-3xl"
-                  animate={{
-                    opacity: [0.15, 0.25, 0.15],
-                  }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  }}
-                  style={{
-                    background:
-                      'linear-gradient(90deg, rgba(99,102,241,0.4), rgba(6,182,212,0.3))',
-                  }}
-                />
-              </span>
-              {/* Elegant underline accent */}
-              <motion.div
-                className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-accent/60 to-transparent"
-                initial={{ scaleX: 0, opacity: 0 }}
-                animate={{ scaleX: 1, opacity: 1 }}
-                transition={{ duration: 1, delay: 0.8 }}
-              />
+            <span className="relative inline-block bg-gradient-to-r from-accent via-cyan-400 to-accent bg-clip-text text-transparent">
+              Actually Works
             </span>
           </h1>
         </FadeIn>
 
         <FadeIn delay={0.6}>
           <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-muted/90 md:text-xl">
-            Blockchain protocols, web applications, and digital infrastructure for companies that
-            refuse to compromise on quality.
+            69 client testimonials. 5.0 average rating. Zero security breaches. Ever.
+            <br />
+            <span className="mt-2 block">
+              When your blockchain can&apos;t have bugs and your app can&apos;t go down — call us.
+            </span>
           </p>
+        </FadeIn>
+
+        {/* Social Proof Badge */}
+        <FadeIn delay={0.75}>
+          <div className="mt-6 flex items-center justify-center gap-6 text-sm text-muted/80">
+            <div className="flex items-center gap-2">
+              <svg className="h-5 w-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <span className="font-medium text-foreground/90">5.0 Rating Across 69 Reviews</span>
+            </div>
+            <div className="h-1 w-1 rounded-full bg-accent/40" />
+            <div className="font-medium text-foreground/90">30+ Countries Trust Us</div>
+          </div>
         </FadeIn>
 
         <FadeIn delay={0.9}>
@@ -300,32 +292,15 @@ export const Hero = () => {
           </div>
         </FadeIn>
 
-        {/* Scroll indicator */}
-        {!prefersReducedMotion && (
-          <motion.div
-            className="absolute bottom-8 left-1/2 -translate-x-1/2"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1.5 }}
-          >
-            <motion.div
-              className="flex flex-col items-center gap-2 text-muted/60"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              <span className="text-xs font-medium">Scroll to explore</span>
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
-            </motion.div>
-          </motion.div>
-        )}
+        {/* Email Capture */}
+        <FadeIn delay={1.1}>
+          <div className="mx-auto mt-8 max-w-md pb-24 md:pb-32">
+            <EmailCapture
+              placeholder="your@email.com"
+              buttonText="Get Updates"
+            />
+          </div>
+        </FadeIn>
       </motion.div>
     </section>
   )
