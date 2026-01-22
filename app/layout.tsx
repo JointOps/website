@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { inter, spaceGrotesk } from '@/lib/fonts'
 import { ErrorBoundary, SkipToContent, BackToTop } from '@/components/ui'
 import { StructuredData } from '@/components/StructuredData'
+import { TestimonialProvider } from '@/components/TestimonialProvider'
 
 import './globals.css'
 
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SkipToContent />
           {children}
           <BackToTop />
+          <TestimonialProvider />
         </ErrorBoundary>
       </body>
     </html>

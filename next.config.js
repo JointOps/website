@@ -6,7 +6,18 @@ const nextConfig = {
   output: 'standalone',
   outputFileTracingRoot: require('path').join(__dirname),
 
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'fiverr-res.cloudinary.com',
+      },
+    ],
+  },
+
   async headers() {
+    const isDev = process.env.NODE_ENV !== 'production'
+
     return [
       {
         source: '/:path*',
@@ -36,7 +47,7 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' https://cdn.vercel-insights.com https://vercel.live",
+              `script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval'" : ''} https://cdn.vercel-insights.com https://vercel.live`,
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",
