@@ -284,7 +284,7 @@ const ServiceDisplay = ({
   if (prefersReducedMotion) {
     return (
       <motion.div
-        className="absolute inset-0 flex items-center"
+        className="absolute inset-0 flex items-start pt-8 lg:pt-16"
         style={{
           opacity,
         }}
@@ -327,7 +327,7 @@ const ServiceDisplay = ({
 
   return (
     <motion.div
-      className="absolute inset-0 flex items-center"
+      className="absolute inset-0 flex items-start pt-8 lg:pt-16"
       style={{
         opacity,
         scale,
@@ -630,7 +630,7 @@ export const Services = () => {
 
   return (
     <section id="services" className="relative bg-black">
-      <div className="relative section-padding text-center px-6 lg:px-8">
+      <div className="relative pt-16 pb-4 sm:pt-20 sm:pb-6 md:pt-24 md:pb-8 lg:pt-32 lg:pb-8 text-center px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -653,7 +653,7 @@ export const Services = () => {
 
       {/* Desktop Scroll Experience */}
       <div ref={containerRef} className="relative hidden lg:block" style={{ height: '500vh' }}>
-        <div className="sticky top-0 h-screen overflow-hidden bg-black will-change-transform">
+        <div className="sticky top-0 h-screen overflow-hidden bg-black will-change-transform pt-8 lg:pt-12">
           <div className="absolute inset-0">
             {!prefersReducedMotion && (
               <>

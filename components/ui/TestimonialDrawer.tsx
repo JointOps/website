@@ -1,8 +1,8 @@
 'use client'
 
-import { motion, AnimatePresence, useMotionValue, PanInfo } from 'framer-motion'
-import { useEffect, useState, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
+import { useCarousel } from '@/hooks'
 import type { Testimonial } from '@/types/testimonials'
 import { TestimonialCard } from './TestimonialCard'
 
@@ -19,92 +19,26 @@ export const TestimonialDrawer = ({
   testimonials,
   initialIndex = 0,
 }: TestimonialDrawerProps) => {
-  const [currentIndex, setCurrentIndex] = useState(initialIndex)
-  const [direction, setDirection] = useState(0)
-  const [isAutoPlaying, setIsAutoPlaying] = useState(false)
-  const [isTransitioning, setIsTransitioning] = useState(false)
+  const {
+    currentIndex,
+    direction,
+    isAutoPlaying,
+    setIsAutoPlaying,
+    isTransitioning,
+    dragX,
+    paginate,
+    handleDragEnd,
+    goToIndex,
+    variants,
+  } = useCarousel({
+    totalItems: testimonials.length,
+    initialIndex,
+    autoPlayInterval: 4000,
+    isOpen,
+    onClose,
+  })
 
-  const dragX = useMotionValue(0)
-
-  const totalReviews = testimonials.length
   const currentTestimonial = testimonials[currentIndex] || testimonials[0]
-
-  const paginate = useCallback(
-    (newDirection: number) => {
-      // Prevent multiple transitions at once
-      if (isTransitioning) return
-
-      setIsTransitioning(true)
-      setDirection(newDirection)
-      setCurrentIndex((prev) => {
-        const next = prev + newDirection
-        if (next < 0) return totalReviews - 1
-        if (next >= totalReviews) return 0
-        return next
-      })
-
-      // Reset transitioning flag after animation completes
-      setTimeout(() => setIsTransitioning(false), 150)
-    },
-    [totalReviews, isTransitioning]
-  )
-
-  const handleDragEnd = (_: unknown, info: PanInfo) => {
-    const swipeThreshold = 50
-    if (info.offset.x > swipeThreshold) {
-      paginate(-1)
-    } else if (info.offset.x < -swipeThreshold) {
-      paginate(1)
-    }
-  }
-
-  useEffect(() => {
-    if (!isOpen || !isAutoPlaying) return
-
-    const timer = setInterval(() => {
-      paginate(1)
-    }, 4000)
-
-    return () => clearInterval(timer)
-  }, [isOpen, isAutoPlaying, paginate])
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (!isOpen) return
-      if (e.key === 'ArrowLeft') paginate(-1)
-      if (e.key === 'ArrowRight') paginate(1)
-      if (e.key === 'Escape') onClose()
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, onClose, paginate])
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [isOpen])
-
-  const variants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 200 : -200,
-      opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-    },
-    exit: (direction: number) => ({
-      x: direction < 0 ? 200 : -200,
-      opacity: 0,
-    }),
-  }
 
   if (!currentTestimonial || testimonials.length === 0) {
     return null
@@ -123,7 +57,7 @@ export const TestimonialDrawer = ({
             transition={{ duration: 0.2 }}
             onClick={onClose}
           >
-            {/* Static gradient orbs - removed animations for performance */}
+            {/* Static gradient orbs */}
             <div className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full bg-accent/10 blur-3xl opacity-40" />
             <div className="absolute right-1/4 bottom-1/4 h-96 w-96 rounded-full bg-accent/10 blur-3xl opacity-30" />
           </motion.div>
@@ -156,7 +90,7 @@ export const TestimonialDrawer = ({
                     <div>
                       <h2 className="text-2xl font-bold text-white md:text-3xl">Client Testimonials</h2>
                       <p className="text-sm text-white/50">
-                        Review {currentIndex + 1} of {totalReviews}
+                        Review {currentIndex + 1} of {testimonials.length}
                       </p>
                     </div>
                   </div>
@@ -198,7 +132,7 @@ export const TestimonialDrawer = ({
                 </div>
               </motion.div>
 
-              {/* Card container - optimized for performance */}
+              {/* Card container */}
               <div className="relative flex-1 overflow-hidden">
                 <AnimatePresence initial={false} custom={direction} mode="wait">
                   <motion.div
@@ -255,21 +189,16 @@ export const TestimonialDrawer = ({
                   {testimonials.slice(0, 10).map((_, i) => (
                     <motion.button
                       key={i}
-                      onClick={() => {
-                        if (isTransitioning || i === currentIndex) return
-                        setIsTransitioning(true)
-                        setDirection(i > currentIndex ? 1 : -1)
-                        setCurrentIndex(i)
-                        setTimeout(() => setIsTransitioning(false), 150)
-                      }}
+                      onClick={() => goToIndex(i)}
                       className="relative h-2 overflow-hidden rounded-full transition-all duration-300"
                       style={{
                         width: i === currentIndex ? '32px' : '8px',
-                        backgroundColor: i === currentIndex ? 'rgba(var(--accent-rgb), 0.8)' : 'rgba(255, 255, 255, 0.2)',
+                        backgroundColor: i === currentIndex ? 'rgb(99, 102, 241)' : 'rgba(255, 255, 255, 0.2)',
                       }}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
                       aria-label={`Go to testimonial ${i + 1}`}
+                      disabled={isTransitioning}
                     >
                       {i === currentIndex && (
                         <motion.div
@@ -285,8 +214,8 @@ export const TestimonialDrawer = ({
                       )}
                     </motion.button>
                   ))}
-                  {totalReviews > 10 && (
-                    <span className="ml-2 text-xs text-white/40">+{totalReviews - 10} more</span>
+                  {testimonials.length > 10 && (
+                    <span className="ml-2 text-xs text-white/40">+{testimonials.length - 10} more</span>
                   )}
                 </div>
 

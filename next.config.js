@@ -1,10 +1,6 @@
-const { withSentryConfig } = require('@sentry/nextjs')
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'standalone',
-  outputFileTracingRoot: require('path').join(__dirname),
 
   images: {
     remotePatterns: [
@@ -51,7 +47,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",
-              "connect-src 'self' https://api.resend.com https://*.upstash.io https://*.sentry.io https://vercel.live wss://ws-us3.pusher.com",
+              "connect-src 'self' https://api.resend.com https://vercel.live wss://ws-us3.pusher.com",
               "frame-src 'self'",
               "media-src 'self'",
               "object-src 'none'",
@@ -79,19 +75,4 @@ const nextConfig = {
   },
 }
 
-// Sentry configuration
-const sentryWebpackPluginOptions = {
-  // Suppress all Sentry warnings
-  silent: true,
-
-  // Upload source maps only in production
-  org: process.env.SENTRY_ORG,
-  project: process.env.SENTRY_PROJECT,
-  authToken: process.env.SENTRY_AUTH_TOKEN,
-
-  // Only upload source maps in production
-  dryRun: process.env.NODE_ENV !== 'production',
-}
-
-// Make sure adding Sentry options is the last code to run before exporting
-module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions)
+module.exports = nextConfig

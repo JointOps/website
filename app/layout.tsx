@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 
 import { inter, spaceGrotesk } from '@/lib/fonts'
-import { ErrorBoundary, SkipToContent, BackToTop } from '@/components/ui'
+import { ErrorBoundary, SkipToContent } from '@/components/ui'
 import { StructuredData } from '@/components/StructuredData'
-import { TestimonialProvider } from '@/components/TestimonialProvider'
+import { DrawerProvider } from '@/contexts'
+import { ShowcaseProvider } from '@/components/ShowcaseProvider'
 
 import './globals.css'
 
@@ -46,12 +47,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StructuredData />
       </head>
       <body className="bg-background font-sans text-foreground antialiased">
-        <ErrorBoundary>
-          <SkipToContent />
-          {children}
-          <BackToTop />
-          <TestimonialProvider />
-        </ErrorBoundary>
+        <DrawerProvider>
+          <ErrorBoundary>
+            <SkipToContent />
+            {children}
+            <ShowcaseProvider />
+          </ErrorBoundary>
+        </DrawerProvider>
       </body>
     </html>
   )

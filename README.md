@@ -20,8 +20,6 @@ Open [http://localhost:3000](http://localhost:3000)
 - **Styling**: Tailwind CSS 3.4.1
 - **Animations**: Framer Motion 11.15.0
 - **Email**: Resend 6.8.0
-- **Rate Limiting**: @upstash/ratelimit 2.0.8
-- **Error Tracking**: @sentry/nextjs 10.36.0
 - **Security**: isomorphic-dompurify 2.35.0
 - **Validation**: Zod 3.24.1
 - **Forms**: react-hook-form 7.54.2
@@ -31,8 +29,6 @@ Open [http://localhost:3000](http://localhost:3000)
 ### Production-Ready
 
 - **Email Service Integration** - Resend API with beautiful HTML emails
-- **Rate Limiting** - Upstash Redis-based API protection (3 requests/hour per IP)
-- **Error Tracking** - Sentry integration for production monitoring
 - **Input Sanitization** - DOMPurify prevents XSS attacks
 - **Security Headers** - CSP, HSTS, X-Frame-Options, and more
 - **ARIA Accessibility** - Live regions for screen readers
@@ -71,38 +67,11 @@ cp .env.example .env.local
 
 **Cost**: Free (100 emails/day)
 
-#### Upstash (Rate Limiting)
-1. Sign up at [upstash.com](https://upstash.com)
-2. Create a Redis database
-3. Copy the REST URL and token
-4. Add to `.env.local`:
-   ```env
-   UPSTASH_REDIS_REST_URL=https://your-redis-url.upstash.io
-   UPSTASH_REDIS_REST_TOKEN=your_redis_token_here
-   ```
-
-**Cost**: Free (10K commands/day)
-
-#### Sentry (Error Tracking)
-1. Sign up at [sentry.io](https://sentry.io)
-2. Create a new Next.js project
-3. Copy your DSN
-4. Add to `.env.local`:
-   ```env
-   NEXT_PUBLIC_SENTRY_DSN=https://your-sentry-dsn@sentry.io/project-id
-   SENTRY_ORG=your-org
-   SENTRY_PROJECT=your-project
-   SENTRY_AUTH_TOKEN=your_auth_token_here
-   ```
-
-**Cost**: Free (5K errors/month)
-
 ### 3. Site Configuration
 
 ```env
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 NODE_ENV=development
-SENTRY_SUPPRESS_GLOBAL_ERROR_HANDLER_FILE_WARNING=1
 ```
 
 ## Project Structure
@@ -117,7 +86,7 @@ SENTRY_SUPPRESS_GLOBAL_ERROR_HANDLER_FILE_WARNING=1
 
 /components
   /sections           # Page sections (Hero, Services, Contact, etc.)
-  /ui                 # Reusable UI components (BackToTop)
+  /ui                 # Reusable UI components
   /icons              # SVG icon components
   /layout             # Header, Footer, Menu
   StructuredData.tsx  # JSON-LD schema
@@ -187,14 +156,12 @@ Submit a contact form message.
 **Errors**:
 - `400` - Validation error
 - `415` - Invalid Content-Type
-- `429` - Rate limit exceeded (3 requests/hour)
 - `500` - Server error
 
 ## Security Features
 
 ### Implemented
 
-- **Rate Limiting** - 3 requests per hour per IP on contact form
 - **Input Sanitization** - DOMPurify strips malicious HTML
 - **Content-Type Validation** - Rejects non-JSON requests
 - **Zod Schema Validation** - Type-safe form validation
@@ -252,7 +219,7 @@ Submit a contact form message.
 ### Animation Patterns
 
 - Pulsing rings with scale and opacity transforms
-- Rotating gradients (360° shimmer effects)
+- Rotating gradients (360 shimmer effects)
 - Bouncing elements with y-axis animation
 - Entrance/exit with rotation and scale
 - Custom cubic-bezier easing: `[0.16, 1, 0.3, 1]`
@@ -277,27 +244,23 @@ Submit a contact form message.
    ```
 
 4. Set environment variables in Vercel Dashboard:
-   - Project Settings → Environment Variables
+   - Project Settings > Environment Variables
    - Add all variables from `.env.local`
 
 ### Pre-Deployment Checklist
 
 - [ ] All environment variables configured
 - [ ] Resend domain verified
-- [ ] Upstash Redis database created
-- [ ] Sentry project set up
 - [ ] Local build passes: `yarn build`
 - [ ] Contact form tested
-- [ ] Rate limiting tested
 
 ### Post-Deployment Verification
 
 1. **Homepage Loads** - Visit https://vyndra.io
 2. **Contact Form** - Submit test message, check email
-3. **Rate Limiting** - Submit 4 times quickly, 4th should error
-4. **Security Headers** - Run `curl -I https://vyndra.io`
-5. **SEO** - Visit https://vyndra.io/sitemap.xml
-6. **Structured Data** - Test at https://search.google.com/test/rich-results
+3. **Security Headers** - Run `curl -I https://vyndra.io`
+4. **SEO** - Visit https://vyndra.io/sitemap.xml
+5. **Structured Data** - Test at https://search.google.com/test/rich-results
 
 ## Troubleshooting
 
@@ -307,12 +270,6 @@ Submit a contact form message.
 - Verify domain in Resend dashboard
 - Check console for error messages
 - Use `onboarding@resend.dev` for testing
-
-### Rate Limiting Not Working
-
-- Check Upstash Redis credentials
-- Verify `UPSTASH_REDIS_REST_URL` and token
-- In development, rate limiting may be disabled
 
 ### Build Errors
 
@@ -335,7 +292,6 @@ Update CSP in [next.config.js](next.config.js):
 
 - [ ] Contact form submission (happy path)
 - [ ] Contact form validation errors
-- [ ] Rate limiting (try 4+ submissions quickly)
 - [ ] Email delivery (check inbox and spam)
 - [ ] Mobile responsiveness
 - [ ] Keyboard navigation
@@ -348,20 +304,13 @@ Update CSP in [next.config.js](next.config.js):
 |---------|-----------|-----------|--------------|
 | Vercel | 100GB bandwidth | Pro: Unlimited | $20/month |
 | Resend | 100 emails/day | 10K emails/month | $20/month |
-| Upstash | 10K commands/day | Pay-as-you-go | ~$0-10 |
-| Sentry | 5K errors/month | 50K errors/month | $26/month |
 
-**Total**: $0/month (free tiers) or $66/month (paid tiers)
+**Total**: $0/month (free tiers) or $40/month (paid tiers)
 
 ## Monitoring & Maintenance
 
-### Daily
-- Check Sentry for errors
-- Monitor email delivery (Resend dashboard)
-
 ### Weekly
 - Review contact form submissions
-- Check rate limiting logs (Upstash)
 - Monitor performance (Vercel Analytics)
 
 ### Monthly
@@ -382,4 +331,4 @@ For issues or questions:
 
 ---
 
-**Your vision, our expertise** 🚀
+**Your vision, our expertise**

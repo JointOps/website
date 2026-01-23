@@ -3,7 +3,6 @@ import type { ApproachStep, NavLink, ProofMetric, Service, SocialLinks } from '@
 export const NAV_LINKS: readonly NavLink[] = [
   { label: 'Services', href: '#services' },
   { label: 'About', href: '#about' },
-  { label: 'Contact', href: '#contact' },
 ] as const
 
 export const SOCIAL_LINKS: SocialLinks = {

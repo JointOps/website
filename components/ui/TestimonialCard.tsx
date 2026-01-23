@@ -1,5 +1,6 @@
 'use client'
 
+import { memo } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 
@@ -10,7 +11,7 @@ interface TestimonialCardProps {
   testimonial: Testimonial
 }
 
-export const TestimonialCard = ({ testimonial }: TestimonialCardProps) => {
+export const TestimonialCard = memo(function TestimonialCard({ testimonial }: TestimonialCardProps) {
   const flag = getCountryFlag(testimonial.country)
   const countryName = getCountryName(testimonial.country)
 
@@ -166,4 +167,4 @@ export const TestimonialCard = ({ testimonial }: TestimonialCardProps) => {
       <div className="pointer-events-none absolute bottom-0 left-0 h-32 w-32 bg-gradient-to-tr from-accent/5 to-transparent" />
     </motion.div>
   )
-}
+})

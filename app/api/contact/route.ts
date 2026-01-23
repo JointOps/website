@@ -1,20 +1,8 @@
-import { Ratelimit } from '@upstash/ratelimit'
-import { Redis } from '@upstash/redis'
 import DOMPurify from 'isomorphic-dompurify'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
 import { contactSchema } from '@/lib/validations'
-
-// Initialize rate limiter - 3 requests per hour per IP
-const ratelimit = process.env.UPSTASH_REDIS_REST_URL
-  ? new Ratelimit({
-      redis: Redis.fromEnv(),
-      limiter: Ratelimit.slidingWindow(3, '1 h'),
-      analytics: true,
-      prefix: 'vyndra:ratelimit',
-    })
-  : null
 
 // Initialize email service
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
@@ -30,32 +18,7 @@ export async function POST(request: Request) {
       )
     }
 
-    // 2. Rate limiting check
-    if (ratelimit) {
-      const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
-      const { success: rateLimitSuccess, limit, remaining, reset } = await ratelimit.limit(ip)
-
-      if (!rateLimitSuccess) {
-        return NextResponse.json(
-          {
-            success: false,
-            error: 'Too many requests. Please try again later.',
-            retryAfter: Math.ceil((reset - Date.now()) / 1000),
-          },
-          {
-            status: 429,
-            headers: {
-              'X-RateLimit-Limit': limit.toString(),
-              'X-RateLimit-Remaining': remaining.toString(),
-              'X-RateLimit-Reset': reset.toString(),
-              'Retry-After': Math.ceil((reset - Date.now()) / 1000).toString(),
-            },
-          }
-        )
-      }
-    }
-
-    // 3. Parse and validate JSON body with error handling
+    // 2. Parse and validate JSON body with error handling
     let body
     try {
       body = await request.json()
@@ -66,17 +29,17 @@ export async function POST(request: Request) {
       )
     }
 
-    // 4. Validate against schema
+    // 3. Validate against schema
     const validated = contactSchema.parse(body)
 
-    // 5. Sanitize inputs to prevent XSS
+    // 4. Sanitize inputs to prevent XSS
     const sanitized = {
       name: DOMPurify.sanitize(validated.name, { ALLOWED_TAGS: [] }),
       email: DOMPurify.sanitize(validated.email, { ALLOWED_TAGS: [] }),
       message: DOMPurify.sanitize(validated.message, { ALLOWED_TAGS: [] }),
     }
 
-    // 6. Send email
+    // 5. Send email
     if (!resend) {
       // In development/staging without email configured
       if (process.env.NODE_ENV === 'development') {

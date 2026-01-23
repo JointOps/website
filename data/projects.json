@@ -1,0 +1,145 @@
+{
+  "projects": [
+    {
+      "id": "honeycomb-protocol",
+      "title": "Honeycomb Protocol",
+      "tagline": "Protocol infrastructure for blockchain gaming",
+      "category": "blockchain-infrastructure",
+      "description": "Built the core protocol infrastructure that blockchain games run on. Not a wrapper or SDK — actual protocol-level Solana programs handling asset management, player profiles, and on-chain game state. Multiple game studios now build on top of this foundation.",
+      "metrics": [
+        { "label": "Type", "value": "Protocol-Level" },
+        { "label": "Studios", "value": "15+" },
+        { "label": "Transactions", "value": "Millions" }
+      ],
+      "technologies": ["Solana", "Rust", "TypeScript", "Anchor"],
+      "thumbnail": null,
+      "color": "#FFB800",
+      "featured": true,
+      "link": "https://docs.honeycombprotocol.com",
+      "year": "2023",
+      "status": "live"
+    },
+    {
+      "id": "gameshift",
+      "title": "GameShift",
+      "tagline": "Developer platform for Web3 game integration",
+      "category": "developer-tools",
+      "description": "Built the developer platform that makes blockchain integration painless for game studios. Comprehensive APIs for wallet connection, NFT mechanics, in-game economies, and asset management — all production-ready and battle-tested.",
+      "metrics": [
+        { "label": "API Endpoints", "value": "50+" },
+        { "label": "Game Studios", "value": "Active" },
+        { "label": "Documentation", "value": "Complete" }
+      ],
+      "technologies": ["TypeScript", "REST APIs", "Solana", "Node.js"],
+      "thumbnail": null,
+      "color": "#6366F1",
+      "featured": true,
+      "link": "https://docs.gameshift.dev",
+      "year": "2023",
+      "status": "live"
+    },
+    {
+      "id": "bunway",
+      "title": "Bunway",
+      "tagline": "Open-source developer tooling from Bunway Labs",
+      "category": "developer-tools",
+      "description": "Open-source developer tools built for the community. Streamlined workflows and utilities that make development faster and more enjoyable. Because good tools should be accessible to everyone.",
+      "metrics": [
+        { "label": "License", "value": "Open Source" },
+        { "label": "Focus", "value": "DX" },
+        { "label": "Community", "value": "Growing" }
+      ],
+      "technologies": ["TypeScript", "Bun", "Node.js"],
+      "thumbnail": null,
+      "color": "#06B6D4",
+      "featured": false,
+      "link": "https://bunwaylabs.github.io/bunway/",
+      "year": "2024",
+      "status": "live"
+    },
+    {
+      "id": "nft-ecosystem",
+      "title": "NFT Ecosystem Work",
+      "tagline": "Staking, missions, and gamification for 7+ collections",
+      "category": "nft-ecosystem",
+      "description": "During the NFT wave, we built the infrastructure that made collections engaging. Staking systems, mission mechanics, raffle platforms, and gamified holder experiences for The Fracture, Sol Patrol, DRiP Binary Force, Wobblebug, Drippieverse, Pooks, and OKD.",
+      "metrics": [
+        { "label": "Collections", "value": "7+" },
+        { "label": "Features", "value": "Staking & Games" },
+        { "label": "Chain", "value": "Solana" }
+      ],
+      "technologies": ["Solana", "Smart Contracts", "React", "Web3.js"],
+      "thumbnail": null,
+      "color": "#A855F7",
+      "featured": false,
+      "link": null,
+      "year": "2022",
+      "status": "completed"
+    },
+    {
+      "id": "career-ai",
+      "title": "CareerAI",
+      "tagline": "AI-powered career platform that actually works",
+      "category": "ai-saas",
+      "description": "Transforming job searching with AI that understands careers. Smart resume building that asks the right questions, ATS optimization that gets you past the bots, and intelligent job matching that finds roles you'll actually want.",
+      "metrics": [
+        { "label": "Features", "value": "AI-Powered" },
+        { "label": "Optimization", "value": "ATS-Ready" },
+        { "label": "Matching", "value": "Smart" }
+      ],
+      "technologies": ["Next.js", "AI/LLM", "PostgreSQL", "TypeScript"],
+      "thumbnail": null,
+      "color": "#10B981",
+      "featured": false,
+      "link": null,
+      "year": "2024",
+      "status": "development"
+    },
+    {
+      "id": "client-projects",
+      "title": "60+ Client Projects",
+      "tagline": "From startups to enterprises across 30+ countries",
+      "category": "web-apps",
+      "description": "69 completed projects. 5.0 average rating. Zero security breaches. From quick fixes to full-scale platforms, we've delivered for clients across every timezone. Each project added to our expertise, each client became a reference.",
+      "metrics": [
+        { "label": "Projects", "value": "69+" },
+        { "label": "Rating", "value": "5.0 ★" },
+        { "label": "Countries", "value": "30+" }
+      ],
+      "technologies": ["React", "Node.js", "Python", "Solana", "AWS"],
+      "thumbnail": null,
+      "color": "#F59E0B",
+      "featured": false,
+      "link": null,
+      "year": "2021-2024",
+      "status": "completed"
+    }
+  ],
+  "categories": [
+    {
+      "id": "blockchain-infrastructure",
+      "label": "Blockchain",
+      "color": "#FFB800"
+    },
+    {
+      "id": "developer-tools",
+      "label": "Dev Tools",
+      "color": "#6366F1"
+    },
+    {
+      "id": "nft-ecosystem",
+      "label": "NFT",
+      "color": "#A855F7"
+    },
+    {
+      "id": "ai-saas",
+      "label": "AI & SaaS",
+      "color": "#10B981"
+    },
+    {
+      "id": "web-apps",
+      "label": "Web Apps",
+      "color": "#F59E0B"
+    }
+  ]
+}
