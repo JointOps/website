@@ -85,10 +85,14 @@ export const ShowcaseTrigger = ({
 
   const scrollToTop = () => {
     setIsExpanded(false)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-    setTimeout(() => {
-      window.dispatchEvent(new Event('reset-animations'))
-    }, 100)
+    // Use requestAnimationFrame to ensure menu closes first
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      // Dispatch reset event after scroll starts
+      setTimeout(() => {
+        window.dispatchEvent(new Event('reset-animations'))
+      }, 500)
+    })
   }
 
   // Speed dial items
@@ -103,6 +107,7 @@ export const ShowcaseTrigger = ({
         </svg>
       ),
       onClick: scrollToTop,
+      color: 'from-blue-500 to-cyan-500',
     },
     {
       id: 'reviews',
@@ -114,6 +119,7 @@ export const ShowcaseTrigger = ({
         </svg>
       ),
       onClick: handleReviewsClick,
+      color: 'from-amber-500 to-orange-500',
     },
     {
       id: 'projects',
@@ -125,6 +131,7 @@ export const ShowcaseTrigger = ({
         </svg>
       ),
       onClick: handleProjectsClick,
+      color: 'from-violet-500 to-purple-500',
     },
   ]
 
@@ -152,62 +159,97 @@ export const ShowcaseTrigger = ({
         <AnimatePresence>
           {isExpanded && (
             <>
-              {/* Backdrop - subtle blur only */}
+              {/* Backdrop blur */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed inset-0 -z-10"
+                className="fixed inset-0 -z-10 bg-black/20 backdrop-blur-sm"
                 onClick={() => setIsExpanded(false)}
               />
 
-              {/* Dial items - stack above FAB */}
-              <div className="absolute bottom-full right-0 mb-3 flex flex-col items-end gap-3">
+              {/* Speed dial menu - Material Design vertical stack */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute bottom-full right-0 mb-4 flex flex-col-reverse items-end gap-3"
+              >
                 {dialItems.map((item, index) => (
                   <motion.button
                     key={item.id}
-                    initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.9 }}
+                    initial={{ opacity: 0, scale: 0.3, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.3, y: 20 }}
                     transition={{
                       type: 'spring',
                       stiffness: 400,
-                      damping: 25,
-                      delay: (dialItems.length - 1 - index) * 0.05,
+                      damping: 22,
+                      delay: index * 0.05,
                     }}
                     onClick={item.onClick}
                     className="group flex items-center gap-3"
                   >
-                    {/* Label - glass morphism pill */}
+                    {/* Label to the left of icon - styled like main FAB tooltip */}
                     <motion.div
                       initial={{ opacity: 0, x: 10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: (dialItems.length - 1 - index) * 0.05 + 0.1 }}
-                      className="whitespace-nowrap rounded-xl border border-white/[0.08] bg-black/80 px-3 py-2 backdrop-blur-2xl transition-all duration-300 group-hover:border-accent/30 group-hover:bg-black/90 sm:px-4 sm:py-2.5"
+                      transition={{ delay: index * 0.05 + 0.1 }}
+                      className="whitespace-nowrap rounded-xl bg-black/90 px-3 py-2 text-xs shadow-lg backdrop-blur-xl"
                     >
-                      <p className="text-xs font-medium text-white sm:text-sm">{item.label}</p>
-                      <p className="text-[10px] text-white/50 sm:text-xs">{item.sublabel}</p>
+                      <span className="font-medium text-white">{item.label}</span>
+                      {item.sublabel && <span className="ml-1 text-white/70">{item.sublabel}</span>}
                     </motion.div>
 
-                    {/* Icon button - matching theme glass morphism */}
+                    {/* Icon button */}
                     <motion.div
-                      className="touch-target flex h-11 w-11 items-center justify-center rounded-full border border-accent/20 bg-gradient-to-br from-accent/15 to-accent/5 text-accent backdrop-blur-2xl transition-all duration-300 group-hover:border-accent/40 group-hover:from-accent/25 group-hover:to-accent/10 group-hover:text-white sm:h-12 sm:w-12"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                      className="relative"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
                     >
-                      {/* Glow on hover */}
-                      <div className="absolute inset-0 rounded-full bg-accent/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100" />
-                      <span className="relative">{item.icon}</span>
+                      {/* Outer glow */}
+                      <motion.div
+                        className={`absolute -inset-1.5 rounded-full bg-gradient-to-r ${item.color} opacity-40 blur-md`}
+                        animate={{
+                          scale: [1, 1.1, 1],
+                          opacity: [0.4, 0.6, 0.4],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: 'easeInOut',
+                          delay: index * 0.2,
+                        }}
+                      />
+
+                      {/* Main button body - 40px mobile, 48px desktop (Material mini FAB) */}
+                      <div
+                        className={`relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br sm:h-12 sm:w-12 ${item.color} shadow-lg`}
+                        style={{
+                          boxShadow:
+                            item.id === 'top'
+                              ? '0 4px 16px rgba(59, 130, 246, 0.4)'
+                              : item.id === 'reviews'
+                                ? '0 4px 16px rgba(245, 158, 11, 0.4)'
+                                : '0 4px 16px rgba(139, 92, 246, 0.4)',
+                        }}
+                      >
+                        {/* Inner shine */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent" />
+
+                        {/* Icon */}
+                        <span className="relative z-10 text-white">{item.icon}</span>
+                      </div>
                     </motion.div>
                   </motion.button>
                 ))}
-              </div>
+              </motion.div>
             </>
           )}
         </AnimatePresence>
 
-        {/* Main FAB button - matching BackToTop style */}
+        {/* Main FAB - Stunning floating orb design */}
         <motion.button
           onClick={handleMainClick}
           onMouseDown={handleLongPressStart}
@@ -215,19 +257,33 @@ export const ShowcaseTrigger = ({
           onMouseLeave={handleLongPressEnd}
           onTouchStart={handleLongPressStart}
           onTouchEnd={handleLongPressEnd}
-          className="group relative touch-target flex h-14 w-14 items-center justify-center rounded-full border border-accent/20 bg-gradient-to-br from-accent/10 to-accent/5 backdrop-blur-2xl transition-all duration-500 hover:border-accent/40 hover:from-accent/20 hover:to-accent/10"
-          whileHover={{ scale: 1.1, y: -4 }}
-          whileTap={{ scale: 0.9 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="group relative touch-target"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 25 }}
           aria-label="Open showcase menu"
           aria-expanded={isExpanded}
         >
-          {/* Animated pulsing ring */}
+          {/* Outer glow rings */}
           <motion.div
-            className="absolute inset-0 rounded-full border-2 border-accent/30"
+            className="absolute -inset-3 rounded-full bg-gradient-to-r from-accent via-violet-500 to-accent opacity-30 blur-xl"
             animate={{
-              scale: [1, 1.3, 1.3],
-              opacity: [0.5, 0, 0],
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.5, 0.3],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+
+          {/* Pulsing attention ring */}
+          <motion.div
+            className="absolute -inset-1 rounded-full border-2 border-accent/50"
+            animate={{
+              scale: [1, 1.5, 1.5],
+              opacity: [0.8, 0, 0],
             }}
             transition={{
               duration: 2,
@@ -236,29 +292,86 @@ export const ShowcaseTrigger = ({
             }}
           />
 
-          {/* Glowing background on hover */}
-          <div className="absolute inset-0 rounded-full bg-accent/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100" />
+          {/* Main button body - 56px mobile, 64px desktop */}
+          <div className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-accent via-violet-500 to-accent shadow-2xl shadow-accent/40 sm:h-16 sm:w-16">
+            {/* Inner shine */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-white/30 via-transparent to-transparent" />
 
-          {/* Icon with rotation */}
-          <motion.svg
-            className="relative h-5 w-5 text-accent transition-colors duration-500 group-hover:text-white sm:h-6 sm:w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2.5}
-            animate={{ rotate: isExpanded ? 45 : 0 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-          </motion.svg>
+            {/* Rotating gradient overlay */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+              animate={{ rotate: [0, 360] }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+            />
 
-          {/* Shimmer effect */}
+            {/* Icon - Diamond/Sparkle shape */}
+            <motion.div
+              animate={{ rotate: isExpanded ? 180 : 0 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              className="relative z-10"
+            >
+              {isExpanded ? (
+                <svg className="h-6 w-6 text-white sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="h-6 w-6 text-white sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+              )}
+            </motion.div>
+
+            {/* Hover ripple effect */}
+            <motion.div
+              className="absolute inset-0 rounded-full bg-white/20 opacity-0 group-hover:opacity-100"
+              initial={false}
+              animate={{ scale: [0.8, 1.2], opacity: [0.3, 0] }}
+              transition={{ duration: 0.6, repeat: Infinity }}
+            />
+          </div>
+
+          {/* Floating particles around button */}
           <motion.div
-            className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100"
-            animate={{ rotate: [0, 360] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+            className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-accent"
+            animate={{
+              y: [0, -8, 0],
+              opacity: [0.5, 1, 0.5],
+            }}
+            transition={{ duration: 2, repeat: Infinity, delay: 0 }}
+          />
+          <motion.div
+            className="absolute -left-1 top-1/2 h-1.5 w-1.5 rounded-full bg-violet-400"
+            animate={{
+              x: [0, -6, 0],
+              opacity: [0.5, 1, 0.5],
+            }}
+            transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
+          />
+          <motion.div
+            className="absolute -bottom-1 right-1/3 h-1.5 w-1.5 rounded-full bg-purple-400"
+            animate={{
+              y: [0, 6, 0],
+              opacity: [0.5, 1, 0.5],
+            }}
+            transition={{ duration: 2, repeat: Infinity, delay: 1 }}
           />
         </motion.button>
+
+        {/* Tooltip hint on first appearance */}
+        <AnimatePresence>
+          {isVisible && !isExpanded && (
+            <motion.div
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              transition={{ delay: 1, duration: 0.3 }}
+              className="absolute right-full mr-4 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-xl bg-black/90 px-3 py-2 text-xs text-white/70 backdrop-blur-xl"
+            >
+              <span className="font-medium text-white">Explore</span>
+              <span className="ml-1">our work</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     </div>
   )

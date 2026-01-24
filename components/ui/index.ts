@@ -1,5 +1,3 @@
-export { AnimatedText } from './AnimatedText'
-export { BackToTop } from './BackToTop'
 export { Button } from './Button'
 export { EmailCapture } from './EmailCapture'
 export { ErrorBoundary } from './ErrorBoundary'

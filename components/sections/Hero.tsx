@@ -72,55 +72,22 @@ export const Hero = () => {
               }}
             />
 
-            {/* Sophisticated orbs floating system - OPTIMIZED: reduced from 12 to 6 */}
-            {[...Array(6)].map((_, i) => (
+            {/* Floating orbs - reduced to 3 for performance */}
+            {[...Array(3)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute"
+                className="absolute h-2 w-2 rounded-full bg-accent/40 blur-sm"
                 style={{
-                  left: `${15 + (i * 7) % 70}%`,
-                  top: `${25 + (i % 4) * 18}%`,
+                  left: `${20 + i * 25}%`,
+                  top: `${30 + (i % 2) * 20}%`,
                 }}
-              >
-                <motion.div
-                  className="relative"
-                  animate={{
-                    y: [0, -100 - (i % 3) * 15, 0],
-                  }}
-                  transition={{
-                    duration: 10 + i * 1.5,
-                    repeat: Infinity,
-                    delay: i * 0.5,
-                    ease: 'easeInOut',
-                  }}
-                >
-                  {/* Outer glow */}
-                  <motion.div
-                    className="absolute inset-0 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/20 blur-md"
-                    animate={{
-                      scale: [1, 1.5, 1],
-                      opacity: [0.2, 0.4, 0.2],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                    }}
-                  />
-                  {/* Core */}
-                  <motion.div
-                    className="h-1 w-1 rounded-full bg-accent/60"
-                    animate={{
-                      opacity: [0.3, 0.8, 0.3],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                    }}
-                  />
-                </motion.div>
-              </motion.div>
+                animate={{ y: [0, -60, 0], opacity: [0.3, 0.6, 0.3] }}
+                transition={{
+                  duration: 15 + i * 5,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              />
             ))}
           </>
         )}
@@ -133,58 +100,13 @@ export const Hero = () => {
           </>
         )}
 
-        {/* Cinematic depth with layered effects */}
+        {/* Single scanning line - reduced for performance */}
         {!prefersReducedMotion && (
-          <>
-            {/* Horizontal scanning lines - cyberpunk aesthetic */}
-            <motion.div
-              className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/10 to-transparent"
-              animate={{
-                y: ['20%', '80%'],
-                opacity: [0, 0.5, 0],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                ease: 'linear',
-              }}
-            />
-            <motion.div
-              className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/8 to-transparent"
-              animate={{
-                y: ['30%', '70%'],
-                opacity: [0, 0.4, 0],
-              }}
-              transition={{
-                duration: 10,
-                repeat: Infinity,
-                ease: 'linear',
-                delay: 2,
-              }}
-            />
-
-            {/* Subtle rotating aurora effect */}
-            <motion.div
-              className="absolute left-1/2 top-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2"
-              animate={{
-                rotate: [0, 360],
-              }}
-              transition={{
-                duration: 60,
-                repeat: Infinity,
-                ease: 'linear',
-              }}
-            >
-              <div
-                className="h-full w-full opacity-30"
-                style={{
-                  background:
-                    'conic-gradient(from 0deg, transparent 0%, rgba(99,102,241,0.05) 25%, transparent 50%, rgba(6,182,212,0.05) 75%, transparent 100%)',
-                  filter: 'blur(60px)',
-                }}
-              />
-            </motion.div>
-          </>
+          <motion.div
+            className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/10 to-transparent"
+            animate={{ y: ['20%', '80%'], opacity: [0, 0.4, 0] }}
+            transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+          />
         )}
 
         {/* Sophisticated vignette - frames the content */}

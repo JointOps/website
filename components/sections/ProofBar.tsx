@@ -1,152 +1,121 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useInView, useSpring, useTransform } from 'framer-motion'
+import { useRef, useEffect } from 'react'
 
 import { PROOF_METRICS } from '@/constants'
-import { fadeInUp, staggerContainer } from '@/lib/animations'
 import { usePrefersReducedMotion } from '@/hooks'
 
-import { RocketIcon, ShieldIcon, StarIcon, TrophyIcon } from '../icons/stat-icons'
+// Animated counter component
+const AnimatedNumber = ({
+  value,
+  prefersReducedMotion,
+}: {
+  value: string
+  prefersReducedMotion: boolean
+}) => {
+  const ref = useRef<HTMLSpanElement>(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
 
-const iconMap = {
-  'Apps Handling Real Money': RocketIcon,
-  'Security Breaches Ever': ShieldIcon,
-  'Supporting Clients': TrophyIcon,
-  'Client Testimonials': StarIcon,
+  // Extract numeric part and suffix (e.g., "10+" -> 10, "+")
+  const numericMatch = value.match(/^(\d+)(.*)$/)
+  const numericValue = numericMatch ? parseInt(numericMatch[1]!, 10) : 0
+  const suffix = numericMatch ? (numericMatch[2] ?? '') : value
+
+  const spring = useSpring(0, {
+    mass: 0.8,
+    stiffness: 50,
+    damping: 15,
+  })
+
+  const display = useTransform(spring, (current) => Math.round(current).toString())
+
+  useEffect(() => {
+    if (isInView && !prefersReducedMotion) {
+      spring.set(numericValue)
+    } else if (prefersReducedMotion) {
+      spring.jump(numericValue)
+    }
+  }, [isInView, spring, numericValue, prefersReducedMotion])
+
+  if (prefersReducedMotion || !numericMatch) {
+    return <span ref={ref}>{value}</span>
+  }
+
+  return (
+    <span ref={ref}>
+      <motion.span>{display}</motion.span>
+      {suffix}
+    </span>
+  )
 }
 
 export const ProofBar = () => {
   const prefersReducedMotion = usePrefersReducedMotion()
 
   return (
-    <section className="relative overflow-hidden bg-black section-padding-sm">
-      {/* Static gradient background - OPTIMIZED */}
+    <section className="relative overflow-hidden bg-black py-20 sm:py-24 md:py-28">
+      {/* Subtle ambient glow background */}
       <div className="absolute inset-0">
-        <div className="absolute left-0 top-0 h-full w-1/3 bg-gradient-to-r from-accent/15 via-accent/8 to-transparent blur-3xl opacity-40" />
-        <div className="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-cyan-500/15 via-cyan-500/8 to-transparent blur-3xl opacity-40" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/5 to-transparent" />
+        <div className="absolute left-1/2 top-1/2 h-[400px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/[0.04] blur-[100px]" />
       </div>
 
-      {/* Subtle border lines */}
-      <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
+      {/* Accent border lines */}
+      <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
 
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-50px' }}
-        variants={staggerContainer}
-        className="relative mx-auto grid max-w-7xl grid-cols-2 gap-4 px-6 sm:gap-6 md:grid-cols-4 md:gap-8 lg:px-8"
-      >
-        {PROOF_METRICS.map((metric, index) => {
-          const Icon = iconMap[metric.label as keyof typeof iconMap]
-
-          return (
+      <div className="relative mx-auto max-w-6xl px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.8 }}
+          className="flex flex-col items-center justify-center gap-10 sm:flex-row sm:gap-0"
+        >
+          {PROOF_METRICS.map((metric, index) => (
             <motion.div
               key={metric.label}
-              variants={fadeInUp}
-              className="group relative"
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.1,
+                ease: [0.25, 0.4, 0.25, 1],
+              }}
+              className="group relative flex flex-col items-center px-6 sm:px-8 md:px-12 lg:px-16"
             >
-              {/* Glass card */}
-              <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 to-white/[0.02] p-6 backdrop-blur-xl transition-all duration-500 group-hover:border-accent/30 group-hover:bg-white/[0.08] sm:p-8">
-                {/* Animated glow effect on hover */}
-                <motion.div
-                  className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+              {/* Vertical divider (not on first item) */}
+              {index > 0 && (
+                <div className="absolute left-0 top-1/2 hidden h-16 w-px -translate-y-1/2 bg-gradient-to-b from-transparent via-white/20 to-transparent sm:block" />
+              )}
+
+              {/* Glowing number */}
+              <div className="relative">
+                {/* Subtle glow effect */}
+                <div
+                  className="absolute -inset-2 blur-2xl opacity-30"
                   style={{
-                    background:
-                      'radial-gradient(circle at center, rgba(99,102,241,0.15) 0%, transparent 70%)',
+                    background: 'radial-gradient(ellipse at center, rgba(99,102,241,0.5) 0%, transparent 70%)',
                   }}
                 />
+                {/* Gradient number text */}
+                <span className="relative bg-gradient-to-b from-white to-white/80 bg-clip-text font-display text-5xl font-bold tracking-tight text-transparent sm:text-6xl md:text-7xl">
+                  <AnimatedNumber value={metric.value} prefersReducedMotion={prefersReducedMotion} />
+                </span>
+              </div>
 
-                {/* Shimmer effect - OPTIMIZED: increased delay, slower animation */}
-                {!prefersReducedMotion && (
-                  <motion.div
-                    className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent"
-                    animate={{
-                      translateX: ['-100%', '200%'],
-                    }}
-                    transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                      repeatDelay: 8,
-                      ease: 'linear',
-                    }}
-                  />
-                )}
+              {/* Subtle accent underline */}
+              <div className="mt-3 h-px w-10 bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
 
-                {/* Content */}
-                <div className="relative text-center">
-                  {/* Icon with glow - OPTIMIZED: simplified entrance */}
-                  <motion.div
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.4,
-                      delay: index * 0.08,
-                      ease: 'easeOut',
-                    }}
-                    className="relative mx-auto mb-4 flex icon-xl items-center justify-center sm:mb-6"
-                  >
-                    {/* Pulsing glow - OPTIMIZED: slower, more subtle */}
-                    <motion.div
-                      className="absolute inset-0 rounded-full bg-accent/30 blur-xl"
-                      animate={
-                        !prefersReducedMotion
-                          ? {
-                              scale: [1, 1.15, 1],
-                              opacity: [0.4, 0.6, 0.4],
-                            }
-                          : {}
-                      }
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                      }}
-                    />
-
-                    {/* Icon container */}
-                    <div className="relative flex items-center justify-center rounded-2xl border-2 border-accent/30 bg-accent/10 p-3 text-accent transition-all duration-300 group-hover:border-accent/60 group-hover:bg-accent/20 group-hover:shadow-[0_0_30px_rgba(99,102,241,0.4)] sm:p-4">
-                      <Icon className="icon-md" />
-                    </div>
-                  </motion.div>
-
-                  {/* Value with gradient text */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
-                    className="mb-2 bg-gradient-to-r from-foreground via-accent to-foreground bg-clip-text font-display text-3xl font-bold text-transparent transition-all duration-300 group-hover:from-accent group-hover:via-cyan-400 group-hover:to-accent sm:text-4xl md:text-5xl"
-                  >
-                    {metric.value}
-                  </motion.div>
-
-                  {/* Label */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
-                    className="text-xs font-medium text-muted transition-colors duration-300 group-hover:text-foreground sm:text-sm"
-                  >
-                    {metric.label}
-                  </motion.div>
-                </div>
-
-                {/* Corner accent */}
-                <div className="absolute right-0 top-0 h-16 w-16 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                  <div className="absolute right-0 top-0 h-px w-8 bg-gradient-to-l from-accent to-transparent" />
-                  <div className="absolute right-0 top-0 h-8 w-px bg-gradient-to-b from-accent to-transparent" />
-                </div>
+              {/* Label */}
+              <div className="mt-3 text-center text-sm font-medium tracking-wide text-white/40 sm:text-base">
+                {metric.label}
               </div>
             </motion.div>
-          )
-        })}
-      </motion.div>
+          ))}
+        </motion.div>
+      </div>
     </section>
   )
 }

@@ -1,7 +1,7 @@
 'use client'
 
-import { motion, useScroll, useTransform, MotionValue, useInView, AnimatePresence } from 'framer-motion'
-import { useRef, useMemo, useState } from 'react'
+import { motion, useScroll, useTransform, MotionValue, useInView, AnimatePresence, useMotionValueEvent } from 'framer-motion'
+import { useRef, useMemo, useState, useEffect, useCallback } from 'react'
 
 import { SERVICES } from '@/constants'
 import { usePrefersReducedMotion } from '@/hooks'
@@ -118,12 +118,12 @@ const Particle = ({
 const ParticleField = ({ scrollProgress }: { scrollProgress: MotionValue<number> }) => {
   const particles = useMemo(
     () =>
-      Array.from({ length: 20 }, (_, i) => ({
+      Array.from({ length: 8 }, (_, i) => ({
         id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
         size: Math.random() * 3 + 1,
-        duration: Math.random() * 15 + 15,
+        duration: Math.random() * 20 + 20,
         delay: Math.random() * 3,
       })),
     []
@@ -190,7 +190,7 @@ const DispersedParticle = ({
 
 const DispersedParticles = ({ disperseProgress }: { disperseProgress: MotionValue<number> }) => {
   const particles = useMemo(() => {
-    const count = 40
+    const count = 12
     return Array.from({ length: count }, (_, i) => {
       const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.4
       return {
@@ -198,7 +198,7 @@ const DispersedParticles = ({ disperseProgress }: { disperseProgress: MotionValu
         startX: 0,
         startY: 0,
         angle,
-        distance: 150 + Math.random() * 250,
+        distance: 100 + Math.random() * 150,
         size: Math.random() * 3 + 2,
         delay: Math.random() * 0.3,
       }
@@ -231,34 +231,48 @@ const ServiceDisplay = ({
 
   const serviceStart = index / SERVICES.length
   const serviceEnd = (index + 1) / SERVICES.length
-  const serviceMid = (serviceStart + serviceEnd) / 2
+
+  // Visible transition zones (20%) at edges, full opacity for 60% in middle
+  const fadeInEnd = serviceStart + (serviceEnd - serviceStart) * 0.2
+  const fadeOutStart = serviceStart + (serviceEnd - serviceStart) * 0.8
+
+  // Smooth easing for visible transitions
+  const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
+  const easeInCubic = (t: number) => Math.pow(t, 3)
 
   const opacity = useTransform(scrollProgress, (value) => {
-    // First service: start at full opacity, fade out normally
+    // First service: full opacity, visible crossfade at end
     if (isFirst) {
-      if (value <= serviceMid) return 1
-      if (value > serviceMid && value < serviceEnd) {
-        return 1 - (value - serviceMid) / (serviceEnd - serviceMid)
+      if (value <= fadeOutStart) return 1
+      if (value > fadeOutStart && value < serviceEnd) {
+        const progress = (value - fadeOutStart) / (serviceEnd - fadeOutStart)
+        return 1 - easeInCubic(progress)
       }
       return 0
     }
 
-    // Last service: fade in, then stay at full opacity (no fade out)
+    // Last service: visible crossfade in, then stay full
     if (isLast) {
       if (value < serviceStart) return 0
-      if (value >= serviceStart && value <= serviceMid) {
-        return (value - serviceStart) / (serviceMid - serviceStart)
+      if (value >= serviceStart && value <= fadeInEnd) {
+        const progress = (value - serviceStart) / (fadeInEnd - serviceStart)
+        return easeOutCubic(progress)
       }
-      return 1 // Stay visible
+      return 1
     }
 
-    // Middle services: fade in and fade out
+    // Middle services: visible fade transitions at both ends
     if (value < serviceStart) return 0
-    if (value >= serviceStart && value <= serviceMid) {
-      return (value - serviceStart) / (serviceMid - serviceStart)
+    if (value >= serviceStart && value <= fadeInEnd) {
+      const progress = (value - serviceStart) / (fadeInEnd - serviceStart)
+      return easeOutCubic(progress)
     }
-    if (value > serviceMid && value < serviceEnd) {
-      return 1 - (value - serviceMid) / (serviceEnd - serviceMid)
+    if (value > fadeInEnd && value <= fadeOutStart) {
+      return 1 // Full opacity for middle 60%
+    }
+    if (value > fadeOutStart && value < serviceEnd) {
+      const progress = (value - fadeOutStart) / (serviceEnd - fadeOutStart)
+      return 1 - easeInCubic(progress)
     }
     return 0
   })
@@ -267,9 +281,9 @@ const ServiceDisplay = ({
   const shouldDisperse = !isFirst && !isLast
   const disperseProgress = useTransform(scrollProgress, (value) => {
     if (!shouldDisperse) return 0
-    if (value <= serviceMid) return 0
-    if (value > serviceMid && value < serviceEnd) {
-      return (value - serviceMid) / (serviceEnd - serviceMid)
+    if (value <= fadeOutStart) return 0
+    if (value > fadeOutStart && value < serviceEnd) {
+      return (value - fadeOutStart) / (serviceEnd - fadeOutStart)
     }
     return 1
   })
@@ -606,6 +620,8 @@ const MobileServicesCarousel = () => {
 export const Services = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const prefersReducedMotion = usePrefersReducedMotion()
+  const isSnapping = useRef(false)
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null)
 
   // Check if Services section is in view
   const isInView = useInView(containerRef, {
@@ -616,6 +632,65 @@ export const Services = () => {
     target: containerRef,
     offset: ['start start', 'end end'],
   })
+
+  // Snap to nearest service when scrolling stops
+  const snapToService = useCallback(() => {
+    if (!containerRef.current || isSnapping.current || prefersReducedMotion) return
+
+    const container = containerRef.current
+    const containerTop = container.offsetTop
+    const containerHeight = container.offsetHeight
+    const scrollY = window.scrollY
+
+    // Calculate current progress within the container
+    const relativeScroll = scrollY - containerTop
+    const progress = Math.max(0, Math.min(1, relativeScroll / (containerHeight - window.innerHeight)))
+
+    // Find nearest service index
+    const serviceIndex = Math.round(progress * (SERVICES.length - 1))
+    const targetProgress = serviceIndex / (SERVICES.length - 1)
+
+    // Calculate target scroll position
+    const targetScroll = containerTop + targetProgress * (containerHeight - window.innerHeight)
+
+    // Only snap if we're within the services section
+    if (scrollY >= containerTop && scrollY <= containerTop + containerHeight - window.innerHeight) {
+      isSnapping.current = true
+      window.scrollTo({
+        top: targetScroll,
+        behavior: 'smooth',
+      })
+
+      // Reset snapping flag after animation
+      setTimeout(() => {
+        isSnapping.current = false
+      }, 500)
+    }
+  }, [prefersReducedMotion])
+
+  // Listen for scroll end
+  useMotionValueEvent(scrollYProgress, 'change', () => {
+    if (isSnapping.current) return
+
+    // Clear existing timeout
+    if (scrollTimeout.current) {
+      clearTimeout(scrollTimeout.current)
+    }
+
+    // Set new timeout to snap after scrolling stops
+    scrollTimeout.current = setTimeout(() => {
+      snapToService()
+    }, 150) // Snap after 150ms of no scrolling
+  })
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current)
+      }
+    }
+  }, [])
 
   // Pre-create all transforms at component level (not conditionally)
   const blob1X = useTransform(scrollYProgress, [0, 1], [0, 200])

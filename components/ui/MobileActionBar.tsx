@@ -10,17 +10,10 @@ export const MobileActionBar = () => {
 
   useEffect(() => {
     const unsubscribe = scrollY.on('change', (latest) => {
-      // Show after scrolling past hero (800px)
       setIsVisible(latest > 800)
     })
-
     return () => unsubscribe()
   }, [scrollY])
-
-  // Only show on mobile/tablet (hide on desktop)
-  if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
-    return null
-  }
 
   return (
     <motion.div
