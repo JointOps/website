@@ -87,7 +87,7 @@ const TRUST_PILLARS: TrustPillar[] = [
     title: 'Built to Last',
     body: [
       "We're not here to milk you for billable hours. We're here to build something that works and keeps working. If we commit to a timeline, we hit it. If something breaks, we fix it.",
-      "Your success is our success. We don't consider a project done until you're proud to ship it. Anything less isn't worth building.",
+      "Your success is our success. We don't consider a project done until you're proud to ship it.",
     ],
   },
 ]
@@ -254,9 +254,9 @@ const PillarItem = ({ pillar, index }: { pillar: TrustPillar; index: number }) =
   )
 }
 
-export const WhyVyndra = () => {
+export const WhyJointOps = () => {
   return (
-    <section className="section-padding relative overflow-hidden bg-gradient-to-b from-black via-[#0A0A0F] to-black px-6 lg:px-8">
+    <section id="why-jointops" className="section-padding relative overflow-hidden bg-gradient-to-b from-black via-[#0A0A0F] to-black px-6 lg:px-8">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Responsive gradient orbs */}
