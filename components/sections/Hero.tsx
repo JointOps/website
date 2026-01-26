@@ -5,12 +5,14 @@ import Link from 'next/link'
 import { useRef } from 'react'
 
 import { usePrefersReducedMotion } from '@/hooks'
+import { siteContent } from '@/lib/content/site-content'
 
 import { Button, EmailCapture, FadeIn } from '../ui'
 
 export const Hero = () => {
   const prefersReducedMotion = usePrefersReducedMotion()
   const containerRef = useRef<HTMLElement>(null)
+  const subheadline = siteContent.hero.subheadline.default
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end start'],
@@ -18,6 +20,9 @@ export const Hero = () => {
 
   const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '50%'])
   const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
+
+  // Split subheadline into lines for display
+  const subheadlineLines = subheadline.split('\n\n')
 
   return (
     <section
@@ -165,21 +170,23 @@ export const Hero = () => {
           </motion.div>
 
           <h1 className="font-display text-5xl font-bold leading-tight tracking-tight text-foreground md:text-7xl lg:text-8xl">
-            <span>We Build What</span>
+            <span>Ideas In.</span>
             <br />
             <span className="relative inline-block bg-gradient-to-r from-accent via-cyan-400 to-accent bg-clip-text text-transparent">
-              Actually Works
+              Products Out.
             </span>
           </h1>
         </FadeIn>
 
         <FadeIn delay={0.6}>
           <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-muted/90 md:text-xl">
-            69 client testimonials. 5.0 average rating. Zero security breaches. Ever.
-            <br />
-            <span className="mt-2 block">
-              When your blockchain can&apos;t have bugs and your app can&apos;t go down — call us.
-            </span>
+            {subheadlineLines[0]}
+            {subheadlineLines[1] && (
+              <>
+                <br />
+                <span className="mt-2 block">{subheadlineLines[1]}</span>
+              </>
+            )}
           </p>
         </FadeIn>
 
@@ -190,7 +197,7 @@ export const Hero = () => {
               <svg className="h-5 w-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
-              <span className="font-medium text-foreground/90">5.0 Rating Across 69 Reviews</span>
+              <span className="font-medium text-foreground/90">5.0 Client Rating</span>
             </div>
             <div className="h-1 w-1 rounded-full bg-accent/40" />
             <div className="font-medium text-foreground/90">30+ Countries Trust Us</div>
@@ -202,13 +209,13 @@ export const Hero = () => {
             <Link href="#contact">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button variant="primary" showArrow>
-                  Start a Project
+                  Let&apos;s Talk
                 </Button>
               </motion.div>
             </Link>
             <Link href="#services">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="secondary">See What We Do</Button>
+                <Button variant="secondary">See Our Work</Button>
               </motion.div>
             </Link>
           </div>

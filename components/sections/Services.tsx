@@ -5,6 +5,7 @@ import { useRef, useMemo, useState, useEffect, useCallback } from 'react'
 
 import { SERVICES } from '@/constants'
 import { usePrefersReducedMotion } from '@/hooks'
+import type { Service } from '@/types'
 
 import {
   BackendIcon,
@@ -12,6 +13,7 @@ import {
   DesignIcon,
   DeveloperToolsIcon,
   GamingIcon,
+  MarketingIcon,
   WebAppsIcon,
 } from '../icons'
 
@@ -22,6 +24,7 @@ const iconMap = {
   backend: BackendIcon,
   'dev-tools': DeveloperToolsIcon,
   design: DesignIcon,
+  marketing: MarketingIcon,
 }
 
 const LightRay = ({
@@ -218,19 +221,21 @@ const ServiceDisplay = ({
   service,
   index,
   scrollProgress,
+  totalServices,
 }: {
-  service: (typeof SERVICES)[0]
+  service: Service
   index: number
   scrollProgress: MotionValue<number>
+  totalServices: number
 }) => {
   const prefersReducedMotion = usePrefersReducedMotion()
   const IconComponent = iconMap[service.id as keyof typeof iconMap]
   const isEven = index % 2 === 0
   const isFirst = index === 0
-  const isLast = index === SERVICES.length - 1
+  const isLast = index === totalServices - 1
 
-  const serviceStart = index / SERVICES.length
-  const serviceEnd = (index + 1) / SERVICES.length
+  const serviceStart = index / totalServices
+  const serviceEnd = (index + 1) / totalServices
 
   // Visible transition zones (20%) at edges, full opacity for 60% in middle
   const fadeInEnd = serviceStart + (serviceEnd - serviceStart) * 0.2
@@ -425,13 +430,15 @@ const ProgressDot = ({
   service,
   index,
   scrollProgress,
+  totalServices,
 }: {
-  service: (typeof SERVICES)[0]
+  service: Service
   index: number
   scrollProgress: MotionValue<number>
+  totalServices: number
 }) => {
-  const serviceStart = index / SERVICES.length
-  const serviceEnd = (index + 1) / SERVICES.length
+  const serviceStart = index / totalServices
+  const serviceEnd = (index + 1) / totalServices
 
   const width = useTransform(scrollProgress, (value) => {
     if (value >= serviceStart && value < serviceEnd) {
@@ -462,9 +469,11 @@ const ProgressDot = ({
 const ScrollProgress = ({
   scrollProgress,
   isVisible,
+  SERVICES,
 }: {
   scrollProgress: MotionValue<number>
   isVisible: boolean
+  SERVICES: readonly Service[]
 }) => {
   return (
     <AnimatePresence>
@@ -477,7 +486,7 @@ const ScrollProgress = ({
           transition={{ duration: 0.3 }}
         >
           {SERVICES.map((service, index) => (
-            <ProgressDot key={service.id} service={service} index={index} scrollProgress={scrollProgress} />
+            <ProgressDot key={service.id} service={service} index={index} scrollProgress={scrollProgress} totalServices={SERVICES.length} />
           ))}
         </motion.div>
       )}
@@ -486,7 +495,7 @@ const ScrollProgress = ({
 }
 
 // Mobile Carousel Component
-const MobileServicesCarousel = () => {
+const MobileServicesCarousel = ({ SERVICES }: { SERVICES: readonly Service[] }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const handleDragEnd = (_: unknown, info: { offset: { x: number } }) => {
@@ -724,10 +733,10 @@ export const Services = () => {
       </div>
 
       {/* Mobile Carousel */}
-      <MobileServicesCarousel />
+      <MobileServicesCarousel SERVICES={SERVICES} />
 
       {/* Desktop Scroll Experience */}
-      <div ref={containerRef} className="relative hidden lg:block" style={{ height: '500vh' }}>
+      <div ref={containerRef} className="relative hidden lg:block" style={{ height: `${SERVICES.length * 100}vh` }}>
         <div className="sticky top-0 h-screen overflow-hidden bg-black will-change-transform pt-8 lg:pt-12">
           <div className="absolute inset-0">
             {!prefersReducedMotion && (
@@ -779,13 +788,14 @@ export const Services = () => {
                 service={service}
                 index={index}
                 scrollProgress={scrollYProgress}
+                totalServices={SERVICES.length}
               />
             ))}
           </div>
         </div>
       </div>
 
-      <ScrollProgress scrollProgress={scrollYProgress} isVisible={isInView} />
+      <ScrollProgress scrollProgress={scrollYProgress} isVisible={isInView} SERVICES={SERVICES} />
 
       <div className="h-24 bg-black" />
     </section>

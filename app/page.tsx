@@ -6,9 +6,11 @@ import {
   CTA,
   Footer,
   Hero,
+  Projects,
   ProofBar,
   Services,
-  WhyVyndra,
+  Testimonials,
+  WhyJointOps,
 } from '@/components/sections'
 import { MobileActionBar } from '@/components/ui'
 
@@ -25,8 +27,10 @@ export default function Home() {
         <Hero />
         <ProofBar />
         <Services />
+        <Projects />
+        <Testimonials />
         <Approach />
-        <WhyVyndra />
+        <WhyJointOps />
         <CTA />
         <Contact />
       </main>

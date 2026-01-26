@@ -1,8 +1,19 @@
-import DOMPurify from 'isomorphic-dompurify'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
 import { contactSchema } from '@/lib/validations'
+
+// Simple server-side text sanitization (strips HTML tags)
+function sanitizeText(input: string): string {
+  return input
+    .replace(/<[^>]*>/g, '') // Remove HTML tags
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+    .trim()
+}
 
 // Initialize email service
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
@@ -34,9 +45,9 @@ export async function POST(request: Request) {
 
     // 4. Sanitize inputs to prevent XSS
     const sanitized = {
-      name: DOMPurify.sanitize(validated.name, { ALLOWED_TAGS: [] }),
-      email: DOMPurify.sanitize(validated.email, { ALLOWED_TAGS: [] }),
-      message: DOMPurify.sanitize(validated.message, { ALLOWED_TAGS: [] }),
+      name: sanitizeText(validated.name),
+      email: sanitizeText(validated.email),
+      message: sanitizeText(validated.message),
     }
 
     // 5. Send email
@@ -61,8 +72,8 @@ export async function POST(request: Request) {
 
     try {
       await resend.emails.send({
-        from: 'onboarding@resend.dev', // Using Resend test domain (change after verifying vyndra.io)
-        to: process.env.CONTACT_EMAIL || 'hello@vyndra.io',
+        from: 'onboarding@resend.dev', // Using Resend test domain (change after verifying jointops.dev)
+        to: process.env.CONTACT_EMAIL || 'hello@jointops.dev',
         replyTo: sanitized.email,
         subject: `New Contact from ${sanitized.name}`,
         text: `
@@ -73,7 +84,7 @@ Message:
 ${sanitized.message}
 
 ---
-Sent via VYNDRA Contact Form
+Sent via Joint Ops Contact Form
         `.trim(),
         html: `
 <!DOCTYPE html>
@@ -102,9 +113,9 @@ Sent via VYNDRA Contact Form
   </div>
 
   <div style="text-align: center; margin-top: 20px; padding: 20px; color: #6b7280; font-size: 12px;">
-    <p style="margin: 0;">Sent via VYNDRA Contact Form</p>
+    <p style="margin: 0;">Sent via Joint Ops Contact Form</p>
     <p style="margin: 5px 0 0 0;">
-      <a href="https://vyndra.io" style="color: #6366F1; text-decoration: none;">vyndra.io</a>
+      <a href="https://jointops.dev" style="color: #6366F1; text-decoration: none;">jointops.dev</a>
     </p>
   </div>
 </body>
