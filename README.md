@@ -1,13 +1,13 @@
-# VYNDRA
+# JointOps
 
-**Digital Engineering Studio** - Production-ready Next.js 15 landing page with enterprise-grade security, email integration, and performance optimization.
+**Web Development, Blockchain & Design Studio** - A crew that operates together. Production-ready Next.js 15 landing page with enterprise-grade security, email integration, and performance optimization.
 
 ## Quick Start
 
 ```bash
-yarn install
+pnpm install
 cp .env.example .env.local
-yarn dev
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000)
@@ -20,7 +20,7 @@ Open [http://localhost:3000](http://localhost:3000)
 - **Styling**: Tailwind CSS 3.4.1
 - **Animations**: Framer Motion 11.15.0
 - **Email**: Resend 6.8.0
-- **Security**: isomorphic-dompurify 2.35.0
+- **Security**: Custom server-side sanitization
 - **Validation**: Zod 3.24.1
 - **Forms**: react-hook-form 7.54.2
 
@@ -62,7 +62,7 @@ cp .env.example .env.local
 4. Add to `.env.local`:
    ```env
    RESEND_API_KEY=re_your_api_key_here
-   CONTACT_EMAIL=hello@vyndra.io
+   CONTACT_EMAIL=hello@jointops.dev
    ```
 
 **Cost**: Free (100 emails/day)
@@ -92,6 +92,9 @@ NODE_ENV=development
   StructuredData.tsx  # JSON-LD schema
 
 /lib
+  /content            # Content configuration (site-content, services, team)
+  /context            # React contexts (service-focus for URL targeting)
+  /hooks              # Custom hooks for targeted content
   animations.ts       # Framer Motion variants
   fonts.ts            # Font configuration
   performance.ts      # Device tier detection
@@ -110,25 +113,25 @@ NODE_ENV=development
 ### Run Dev Server
 
 ```bash
-yarn dev
+pnpm dev
 ```
 
 ### Build for Production
 
 ```bash
-yarn build
+pnpm build
 ```
 
 ### Start Production Server
 
 ```bash
-yarn start
+pnpm start
 ```
 
 ### Lint Code
 
 ```bash
-yarn lint
+pnpm lint
 ```
 
 ## API Documentation
@@ -162,7 +165,7 @@ Submit a contact form message.
 
 ### Implemented
 
-- **Input Sanitization** - DOMPurify strips malicious HTML
+- **Input Sanitization** - Server-side HTML stripping
 - **Content-Type Validation** - Rejects non-JSON requests
 - **Zod Schema Validation** - Type-safe form validation
 - **Security Headers**:
@@ -251,15 +254,15 @@ Submit a contact form message.
 
 - [ ] All environment variables configured
 - [ ] Resend domain verified
-- [ ] Local build passes: `yarn build`
+- [ ] Local build passes: `pnpm build`
 - [ ] Contact form tested
 
 ### Post-Deployment Verification
 
-1. **Homepage Loads** - Visit https://vyndra.io
+1. **Homepage Loads** - Visit https://jointops.dev
 2. **Contact Form** - Submit test message, check email
-3. **Security Headers** - Run `curl -I https://vyndra.io`
-4. **SEO** - Visit https://vyndra.io/sitemap.xml
+3. **Security Headers** - Run `curl -I https://jointops.dev`
+4. **SEO** - Visit https://jointops.dev/sitemap.xml
 5. **Structured Data** - Test at https://search.google.com/test/rich-results
 
 ## Troubleshooting
@@ -275,9 +278,9 @@ Submit a contact form message.
 
 ```bash
 rm -rf .next
-rm -rf node_modules yarn.lock
-yarn install
-yarn build
+rm -rf node_modules pnpm-lock.yaml
+pnpm install
+pnpm build
 ```
 
 ### CSP Errors in Console
@@ -314,21 +317,21 @@ Update CSP in [next.config.js](next.config.js):
 - Monitor performance (Vercel Analytics)
 
 ### Monthly
-- Update dependencies: `yarn upgrade-interactive`
+- Update dependencies: `pnpm update --interactive`
 - Review security headers
 - Run PageSpeed audit
 - Check SSL certificate expiry
 
 ## License
 
-Proprietary - All rights reserved by VYNDRA
+Proprietary - All rights reserved by JointOps
 
 ## Support
 
 For issues or questions:
-- Email: hello@vyndra.io
-- Website: https://vyndra.io
+- Email: hello@jointops.dev
+- Website: https://jointops.dev
 
 ---
 
-**Your vision, our expertise**
+**JointOps — A crew that operates together.**

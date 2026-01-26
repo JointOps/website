@@ -1,11 +1,11 @@
 export const Logo = ({ className = '' }: { className?: string }) => {
   return (
     <svg
-      viewBox="0 0 120 24"
+      viewBox="0 0 140 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      aria-label="Vyndra"
+      aria-label="Joint Ops"
     >
       <text
         x="0"
@@ -16,7 +16,7 @@ export const Logo = ({ className = '' }: { className?: string }) => {
         fill="currentColor"
         letterSpacing="0.05em"
       >
-        VYNDRA
+        JOINT OPS
       </text>
     </svg>
   )

@@ -134,3 +134,6 @@ temp/
 
 # Documentation (internal notes)
 docs/
+
+# Claude configuration
+CLAUDE.md

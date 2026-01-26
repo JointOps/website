@@ -32,7 +32,7 @@ export const Header = () => {
       >
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
           {/* Logo with subtle animation - Responsive sizing */}
-          <Link href="/" className="group flex items-center" aria-label="Vyndra home">
+          <Link href="/" className="group flex items-center" aria-label="Joint Ops home">
             <motion.div
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
