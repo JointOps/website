@@ -1,12 +1,13 @@
 'use client'
 
+import { memo } from 'react'
 import { motion } from 'framer-motion'
 
 interface WebAppsIconProps {
   className?: string
 }
 
-export const WebAppsIcon = ({ className = '' }: WebAppsIconProps) => {
+export const WebAppsIcon = memo(({ className = '' }: WebAppsIconProps) => {
   return (
     <svg
       viewBox="0 0 200 200"
@@ -103,4 +104,5 @@ export const WebAppsIcon = ({ className = '' }: WebAppsIconProps) => {
       />
     </svg>
   )
-}
+})
+WebAppsIcon.displayName = 'WebAppsIcon'

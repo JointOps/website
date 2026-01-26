@@ -1,12 +1,13 @@
 'use client'
 
+import { memo } from 'react'
 import { motion } from 'framer-motion'
 
 interface MarketingIconProps {
   className?: string
 }
 
-export const MarketingIcon = ({ className = '' }: MarketingIconProps) => {
+export const MarketingIcon = memo(({ className = '' }: MarketingIconProps) => {
   return (
     <svg
       viewBox="0 0 200 200"
@@ -90,4 +91,5 @@ export const MarketingIcon = ({ className = '' }: MarketingIconProps) => {
       />
     </svg>
   )
-}
+})
+MarketingIcon.displayName = 'MarketingIcon'

@@ -1,4 +1,6 @@
-export const Menu = ({ className = '' }: { className?: string }) => {
+import { memo } from 'react'
+
+export const Menu = memo(({ className = '' }: { className?: string }) => {
   return (
     <svg
       width="24"
@@ -14,4 +16,5 @@ export const Menu = ({ className = '' }: { className?: string }) => {
       <path d="M3 18H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   )
-}
+})
+Menu.displayName = 'Menu'

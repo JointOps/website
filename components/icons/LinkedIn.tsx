@@ -1,4 +1,6 @@
-export const LinkedIn = ({ className = '' }: { className?: string }) => {
+import { memo } from 'react'
+
+export const LinkedIn = memo(({ className = '' }: { className?: string }) => {
   return (
     <svg
       width="20"
@@ -15,4 +17,5 @@ export const LinkedIn = ({ className = '' }: { className?: string }) => {
       />
     </svg>
   )
-}
+})
+LinkedIn.displayName = 'LinkedIn'

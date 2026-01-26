@@ -2,6 +2,16 @@
 const nextConfig = {
   reactStrictMode: true,
 
+  // Modern browser targeting - reduces polyfill bundle size
+  experimental: {
+    optimizePackageImports: ['framer-motion'],
+  },
+
+  // Compiler optimizations
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+
   images: {
     remotePatterns: [
       {

@@ -1,12 +1,13 @@
 'use client'
 
+import { memo } from 'react'
 import { motion } from 'framer-motion'
 
 interface BackendIconProps {
   className?: string
 }
 
-export const BackendIcon = ({ className = '' }: BackendIconProps) => {
+export const BackendIcon = memo(({ className = '' }: BackendIconProps) => {
   return (
     <svg
       viewBox="0 0 200 200"
@@ -113,4 +114,5 @@ export const BackendIcon = ({ className = '' }: BackendIconProps) => {
       ))}
     </svg>
   )
-}
+})
+BackendIcon.displayName = 'BackendIcon'

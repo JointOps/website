@@ -1,4 +1,6 @@
-export const Close = ({ className = '' }: { className?: string }) => {
+import { memo } from 'react'
+
+export const Close = memo(({ className = '' }: { className?: string }) => {
   return (
     <svg
       width="24"
@@ -13,4 +15,5 @@ export const Close = ({ className = '' }: { className?: string }) => {
       <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   )
-}
+})
+Close.displayName = 'Close'

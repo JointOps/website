@@ -34,7 +34,7 @@ export const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <Logo className="h-5 w-auto text-white/90" />
+            <Logo className="text-base" animate={false} />
             <div className="hidden h-4 w-px bg-white/[0.08] lg:block" />
             <p className="text-sm text-white/30">© {currentYear}</p>
           </motion.div>

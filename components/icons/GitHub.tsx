@@ -1,4 +1,6 @@
-export const GitHub = ({ className = '' }: { className?: string }) => {
+import { memo } from 'react'
+
+export const GitHub = memo(({ className = '' }: { className?: string }) => {
   return (
     <svg
       width="20"
@@ -17,4 +19,5 @@ export const GitHub = ({ className = '' }: { className?: string }) => {
       />
     </svg>
   )
-}
+})
+GitHub.displayName = 'GitHub'

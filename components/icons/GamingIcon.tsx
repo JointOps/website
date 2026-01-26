@@ -1,12 +1,13 @@
 'use client'
 
+import { memo } from 'react'
 import { motion } from 'framer-motion'
 
 interface GamingIconProps {
   className?: string
 }
 
-export const GamingIcon = ({ className = '' }: GamingIconProps) => {
+export const GamingIcon = memo(({ className = '' }: GamingIconProps) => {
   return (
     <svg
       viewBox="0 0 200 200"
@@ -95,4 +96,5 @@ export const GamingIcon = ({ className = '' }: GamingIconProps) => {
       />
     </svg>
   )
-}
+})
+GamingIcon.displayName = 'GamingIcon'

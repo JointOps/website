@@ -1,4 +1,6 @@
-export const Twitter = ({ className = '' }: { className?: string }) => {
+import { memo } from 'react'
+
+export const Twitter = memo(({ className = '' }: { className?: string }) => {
   return (
     <svg
       width="20"
@@ -15,4 +17,5 @@ export const Twitter = ({ className = '' }: { className?: string }) => {
       />
     </svg>
   )
-}
+})
+Twitter.displayName = 'Twitter'

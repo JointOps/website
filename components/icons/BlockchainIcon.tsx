@@ -1,12 +1,13 @@
 'use client'
 
+import { memo } from 'react'
 import { motion } from 'framer-motion'
 
 interface BlockchainIconProps {
   className?: string
 }
 
-export const BlockchainIcon = ({ className = '' }: BlockchainIconProps) => {
+export const BlockchainIcon = memo(({ className = '' }: BlockchainIconProps) => {
   return (
     <svg
       viewBox="0 0 200 200"
@@ -119,4 +120,5 @@ export const BlockchainIcon = ({ className = '' }: BlockchainIconProps) => {
       />
     </svg>
   )
-}
+})
+BlockchainIcon.displayName = 'BlockchainIcon'

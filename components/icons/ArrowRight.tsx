@@ -1,4 +1,6 @@
-export const ArrowRight = ({ className = '' }: { className?: string }) => {
+import { memo } from 'react'
+
+export const ArrowRight = memo(({ className = '' }: { className?: string }) => {
   return (
     <svg
       width="20"
@@ -18,4 +20,5 @@ export const ArrowRight = ({ className = '' }: { className?: string }) => {
       />
     </svg>
   )
-}
+})
+ArrowRight.displayName = 'ArrowRight'

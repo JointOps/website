@@ -9,7 +9,9 @@ export default function NotFound() {
     <div className="flex min-h-screen flex-col">
       <div className="flex flex-1 items-center justify-center px-6">
         <div className="text-center">
-          <Logo className="mx-auto h-8 w-auto text-foreground" />
+          <div className="flex justify-center">
+            <Logo className="text-2xl" animate={false} />
+          </div>
 
           <h1 className="mt-12 font-display text-6xl font-bold text-foreground md:text-7xl">
             This page doesn&apos;t exist.
