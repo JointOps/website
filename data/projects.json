@@ -9,7 +9,7 @@
       "metrics": [
         { "label": "Type", "value": "Protocol-Level" },
         { "label": "Studios", "value": "15+" },
-        { "label": "Transactions", "value": "Millions" }
+        { "label": "Chain", "value": "Solana" }
       ],
       "technologies": ["Solana", "Rust", "TypeScript", "Anchor"],
       "thumbnail": null,
@@ -17,7 +17,8 @@
       "featured": true,
       "link": "https://docs.honeycombprotocol.com",
       "year": "2023",
-      "status": "live"
+      "status": "live",
+      "relevantFor": ["web3"]
     },
     {
       "id": "gameshift",
@@ -36,18 +37,39 @@
       "featured": true,
       "link": "https://docs.gameshift.dev",
       "year": "2023",
-      "status": "live"
+      "status": "live",
+      "relevantFor": ["web3", "web2"]
+    },
+    {
+      "id": "career-ai",
+      "title": "CareerAI",
+      "tagline": "AI-Powered Career Management Platform",
+      "category": "ai-saas",
+      "description": "Your AI-powered career co-pilot. CareerAI helps professionals create comprehensive profiles, find opportunities that actually match their skills, and prepare for interviews with personalized coaching. Built with Claude Sonnet 4.5 for intelligent job matching, automated resume generation, and application tracking that doesn't suck.",
+      "metrics": [
+        { "label": "Features", "value": "AI-Powered" },
+        { "label": "Optimization", "value": "ATS-Ready" },
+        { "label": "Matching", "value": "Smart" }
+      ],
+      "technologies": ["Next.js", "AI/LLM", "PostgreSQL", "TypeScript"],
+      "thumbnail": null,
+      "color": "#10B981",
+      "featured": true,
+      "link": null,
+      "year": "2024",
+      "status": "development",
+      "relevantFor": ["web2", "creative"]
     },
     {
       "id": "bunway",
-      "title": "Bunway",
-      "tagline": "Open-source developer tooling from Bunway Labs",
+      "title": "BunWay",
+      "tagline": "Express-Style Router for Bun",
       "category": "developer-tools",
-      "description": "Open-source developer tools built for the community. Streamlined workflows and utilities that make development faster and more enjoyable. Because good tools should be accessible to everyone.",
+      "description": "We missed Express ergonomics on Bun's native runtime. So we built BunWay — a lightweight HTTP router with familiar routing patterns, middleware support, and path parameter parsing. Open source. Published on npm. Used by developers who want Express DX with Bun performance.",
       "metrics": [
         { "label": "License", "value": "Open Source" },
         { "label": "Focus", "value": "DX" },
-        { "label": "Community", "value": "Growing" }
+        { "label": "Platform", "value": "npm" }
       ],
       "technologies": ["TypeScript", "Bun", "Node.js"],
       "thumbnail": null,
@@ -55,7 +77,28 @@
       "featured": false,
       "link": "https://bunwaylabs.github.io/bunway/",
       "year": "2024",
-      "status": "live"
+      "status": "live",
+      "relevantFor": ["web2"]
+    },
+    {
+      "id": "hitlimit",
+      "title": "HitLimit",
+      "tagline": "Rate Limiting in One Line",
+      "category": "developer-tools",
+      "description": "Rate limiting shouldn't require a PhD. HitLimit is a simple, effective rate limiting package for Node.js applications. One line to add, zero configuration headaches.",
+      "metrics": [
+        { "label": "License", "value": "Open Source" },
+        { "label": "Setup", "value": "One Line" },
+        { "label": "Platform", "value": "npm" }
+      ],
+      "technologies": ["TypeScript", "Node.js"],
+      "thumbnail": null,
+      "color": "#EF4444",
+      "featured": false,
+      "link": null,
+      "year": "2024",
+      "status": "live",
+      "relevantFor": ["web2"]
     },
     {
       "id": "nft-ecosystem",
@@ -74,45 +117,28 @@
       "featured": false,
       "link": null,
       "year": "2022",
-      "status": "completed"
-    },
-    {
-      "id": "career-ai",
-      "title": "CareerAI",
-      "tagline": "AI-powered career platform that actually works",
-      "category": "ai-saas",
-      "description": "Transforming job searching with AI that understands careers. Smart resume building that asks the right questions, ATS optimization that gets you past the bots, and intelligent job matching that finds roles you'll actually want.",
-      "metrics": [
-        { "label": "Features", "value": "AI-Powered" },
-        { "label": "Optimization", "value": "ATS-Ready" },
-        { "label": "Matching", "value": "Smart" }
-      ],
-      "technologies": ["Next.js", "AI/LLM", "PostgreSQL", "TypeScript"],
-      "thumbnail": null,
-      "color": "#10B981",
-      "featured": false,
-      "link": null,
-      "year": "2024",
-      "status": "development"
+      "status": "completed",
+      "relevantFor": ["web3"]
     },
     {
       "id": "client-projects",
-      "title": "60+ Client Projects",
+      "title": "Client Projects",
       "tagline": "From startups to enterprises across 30+ countries",
       "category": "web-apps",
-      "description": "69 completed projects. 5.0 average rating. Zero security breaches. From quick fixes to full-scale platforms, we've delivered for clients across every timezone. Each project added to our expertise, each client became a reference.",
+      "description": "Years of completed projects with a perfect 5.0 rating on Fiverr. Clients from 30+ countries. From quick fixes to full-scale platforms, we've delivered across every timezone. Each project added to our expertise, each client became a reference.",
       "metrics": [
-        { "label": "Projects", "value": "69+" },
-        { "label": "Rating", "value": "5.0 ★" },
-        { "label": "Countries", "value": "30+" }
+        { "label": "Rating", "value": "5.0" },
+        { "label": "Countries", "value": "30+" },
+        { "label": "Platform", "value": "Fiverr" }
       ],
       "technologies": ["React", "Node.js", "Python", "Solana", "AWS"],
       "thumbnail": null,
       "color": "#F59E0B",
       "featured": false,
       "link": null,
-      "year": "2021-2024",
-      "status": "completed"
+      "year": "2021-2025",
+      "status": "completed",
+      "relevantFor": ["web2", "web3", "creative"]
     }
   ],
   "categories": [
