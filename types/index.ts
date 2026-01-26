@@ -4,6 +4,7 @@ export interface Service {
   tagline: string
   description: readonly string[]
   features: readonly string[]
+  relevantFor?: readonly string[]
 }
 
 export interface ContactFormData {

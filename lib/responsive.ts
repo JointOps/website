@@ -1,5 +1,5 @@
 /**
- * Responsive Utilities for Vyndra
+ * Responsive Utilities for Joint Ops
  * Minimal utilities for responsive design
  */
 
