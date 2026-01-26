@@ -402,7 +402,7 @@ export const Testimonials = () => {
             </h2>
 
             <p className="text-lg text-white/50 max-w-2xl">
-              Real reviews from real clients. Every single one is a 5-star rating.
+              Feedback from clients we&apos;ve worked with across 30+ countries.
             </p>
           </motion.div>
         </div>

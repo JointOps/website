@@ -2,7 +2,10 @@ import type { ApproachStep, NavLink, ProofMetric, Service, SocialLinks } from '@
 
 export const NAV_LINKS: readonly NavLink[] = [
   { label: 'Services', href: '#services' },
-  { label: 'About', href: '#about' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Reviews', href: '#testimonials' },
+  { label: 'About', href: '#why-jointops' },
+  { label: 'Contact', href: '#contact' },
 ] as const
 
 export const SOCIAL_LINKS: SocialLinks = {
@@ -14,7 +17,7 @@ export const SOCIAL_LINKS: SocialLinks = {
 export const CONTACT_EMAIL = 'hello@jointops.dev' as const
 
 export const PROOF_METRICS: readonly ProofMetric[] = [
-  { value: '5.0', label: 'Fiverr Rating' },
+  { value: '4.8', label: 'Fiverr Rating' },
   { value: '30+', label: 'Countries Served' },
   { value: 'Zero', label: 'Security Incidents' },
 ] as const
