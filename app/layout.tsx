@@ -17,7 +17,16 @@ export const metadata: Metadata = {
     template: '%s | JointOps - Web & Blockchain Development Studio',
   },
   description:
-    'JointOps is a premier web development agency and blockchain development studio. Expert Solana developers, React/Next.js engineers, and UI/UX designers. 100+ projects delivered, 5.0 rating, clients in 30+ countries. Hire top full-stack developers for web apps, smart contracts, DeFi protocols, NFT platforms, and enterprise software.',
+    'JointOps is a premier web development agency and blockchain development studio. Expert Solana developers, React/Next.js engineers, and UI/UX designers. 100+ projects delivered, 4.8 rating, clients in 30+ countries. Hire top full-stack developers for web apps, smart contracts, DeFi protocols, NFT platforms, and enterprise software.',
+  icons: {
+    icon: [
+      { url: '/favicon/favicon.ico', sizes: 'any' },
+      { url: '/favicon/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
+    ],
+    apple: [{ url: '/favicon/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
+  manifest: '/favicon/site.webmanifest',
   keywords: [
     // Primary keywords
     'web development agency',
@@ -81,7 +90,7 @@ export const metadata: Metadata = {
     siteName: 'JointOps',
     title: 'JointOps | Web Development Agency | Blockchain & Solana Developers',
     description:
-      'Premier web development agency and blockchain studio. Expert Solana developers, React/Next.js engineers. 100+ projects, 5.0 rating, 30+ countries. Build with the best.',
+      'Premier web development agency and blockchain studio. Expert Solana developers, React/Next.js engineers. 100+ projects, 4.8 rating, 30+ countries. Build with the best.',
     images: [
       {
         url: '/og-image.png',
@@ -97,7 +106,7 @@ export const metadata: Metadata = {
     creator: '@jointops_',
     title: 'JointOps | Web Development Agency | Blockchain & Solana Developers',
     description:
-      'Premier web development agency and blockchain studio. Expert Solana developers, React/Next.js engineers. 100+ projects, 5.0 rating. Build with the best.',
+      'Premier web development agency and blockchain studio. Expert Solana developers, React/Next.js engineers. 100+ projects, 4.8 rating. Build with the best.',
     images: ['/og-image.png'],
   },
   robots: {
