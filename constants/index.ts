@@ -9,9 +9,9 @@ export const NAV_LINKS: readonly NavLink[] = [
 ] as const
 
 export const SOCIAL_LINKS: SocialLinks = {
-  twitter: 'https://twitter.com/jointopsdev',
+  twitter: 'https://x.com/jointops_',
   github: 'https://github.com/jointops',
-  linkedin: 'https://linkedin.com/company/jointops',
+  linkedin: 'https://www.linkedin.com/company/jointops/',
 } as const
 
 export const CONTACT_EMAIL = 'hello@jointops.dev' as const

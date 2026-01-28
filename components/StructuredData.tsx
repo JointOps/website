@@ -75,7 +75,7 @@ export function StructuredData() {
       bestRating: '5',
       worstRating: '1',
     },
-    sameAs: ['https://github.com/JointOps', 'https://twitter.com/jointopsdev'],
+    sameAs: ['https://github.com/jointops', 'https://x.com/jointops_', 'https://www.linkedin.com/company/jointops/'],
   }
 
   const websiteSchema = {

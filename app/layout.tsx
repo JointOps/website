@@ -93,8 +93,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@jointopsdev',
-    creator: '@jointopsdev',
+    site: '@jointops_',
+    creator: '@jointops_',
     title: 'JointOps | Web Development Agency | Blockchain & Solana Developers',
     description:
       'Premier web development agency and blockchain studio. Expert Solana developers, React/Next.js engineers. 100+ projects, 5.0 rating. Build with the best.',
