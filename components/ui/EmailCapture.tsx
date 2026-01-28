@@ -36,9 +36,16 @@ export const EmailCapture = ({
       if (onSubmit) {
         await onSubmit(email)
       } else {
-        // Default: just log (you can replace with API call later)
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        console.log('Email captured:', email)
+        // Send to subscribe API
+        const response = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to subscribe')
+        }
       }
 
       setStatus('success')
