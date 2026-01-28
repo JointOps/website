@@ -1,7 +1,7 @@
 'use client'
 
-import { motion, useScroll, useTransform, MotionValue, useInView, AnimatePresence, useMotionValueEvent } from 'framer-motion'
-import { useRef, useMemo, useState, useEffect, useCallback } from 'react'
+import { motion, useScroll, useTransform, MotionValue, useInView, AnimatePresence } from 'framer-motion'
+import { useRef, useMemo, useState } from 'react'
 
 import { SERVICES } from '@/constants'
 import { usePrefersReducedMotion } from '@/hooks'
@@ -119,15 +119,16 @@ const Particle = ({
 }
 
 const ParticleField = ({ scrollProgress }: { scrollProgress: MotionValue<number> }) => {
+  // Reduced from 8 to 3 for performance
   const particles = useMemo(
     () =>
-      Array.from({ length: 8 }, (_, i) => ({
+      Array.from({ length: 3 }, (_, i) => ({
         id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: Math.random() * 3 + 1,
-        duration: Math.random() * 20 + 20,
-        delay: Math.random() * 3,
+        x: 25 + i * 25, // Fixed positions instead of random for stability
+        y: 30 + i * 20,
+        size: 2 + i,
+        duration: 25 + i * 5,
+        delay: i,
       })),
     []
   )
@@ -192,10 +193,11 @@ const DispersedParticle = ({
 }
 
 const DispersedParticles = ({ disperseProgress }: { disperseProgress: MotionValue<number> }) => {
+  // Reduced from 12 to 5 for performance
   const particles = useMemo(() => {
-    const count = 12
+    const count = 5
     return Array.from({ length: count }, (_, i) => {
-      const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.4
+      const angle = (Math.PI * 2 * i) / count
       return {
         id: i,
         startX: 0,
@@ -629,8 +631,6 @@ const MobileServicesCarousel = ({ SERVICES }: { SERVICES: readonly Service[] }) 
 export const Services = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const prefersReducedMotion = usePrefersReducedMotion()
-  const isSnapping = useRef(false)
-  const scrollTimeout = useRef<NodeJS.Timeout | null>(null)
 
   // Check if Services section is in view
   const isInView = useInView(containerRef, {
@@ -642,64 +642,10 @@ export const Services = () => {
     offset: ['start start', 'end end'],
   })
 
-  // Snap to nearest service when scrolling stops
-  const snapToService = useCallback(() => {
-    if (!containerRef.current || isSnapping.current || prefersReducedMotion) return
-
-    const container = containerRef.current
-    const containerTop = container.offsetTop
-    const containerHeight = container.offsetHeight
-    const scrollY = window.scrollY
-
-    // Calculate current progress within the container
-    const relativeScroll = scrollY - containerTop
-    const progress = Math.max(0, Math.min(1, relativeScroll / (containerHeight - window.innerHeight)))
-
-    // Find nearest service index
-    const serviceIndex = Math.round(progress * (SERVICES.length - 1))
-    const targetProgress = serviceIndex / (SERVICES.length - 1)
-
-    // Calculate target scroll position
-    const targetScroll = containerTop + targetProgress * (containerHeight - window.innerHeight)
-
-    // Only snap if we're within the services section
-    if (scrollY >= containerTop && scrollY <= containerTop + containerHeight - window.innerHeight) {
-      isSnapping.current = true
-      window.scrollTo({
-        top: targetScroll,
-        behavior: 'smooth',
-      })
-
-      // Reset snapping flag after animation
-      setTimeout(() => {
-        isSnapping.current = false
-      }, 500)
-    }
-  }, [prefersReducedMotion])
-
-  // Listen for scroll end
-  useMotionValueEvent(scrollYProgress, 'change', () => {
-    if (isSnapping.current) return
-
-    // Clear existing timeout
-    if (scrollTimeout.current) {
-      clearTimeout(scrollTimeout.current)
-    }
-
-    // Set new timeout to snap after scrolling stops
-    scrollTimeout.current = setTimeout(() => {
-      snapToService()
-    }, 150) // Snap after 150ms of no scrolling
-  })
-
-  // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (scrollTimeout.current) {
-        clearTimeout(scrollTimeout.current)
-      }
-    }
-  }, [])
+  // Removed snap-to-service behavior - it caused performance issues:
+  // - useMotionValueEvent fired on every scroll pixel
+  // - setTimeout created/destroyed timers constantly
+  // - Forced scroll position caused jank
 
   // Pre-create all transforms at component level (not conditionally)
   const blob1X = useTransform(scrollYProgress, [0, 1], [0, 200])
@@ -735,8 +681,8 @@ export const Services = () => {
       {/* Mobile Carousel */}
       <MobileServicesCarousel SERVICES={SERVICES} />
 
-      {/* Desktop Scroll Experience */}
-      <div ref={containerRef} className="relative hidden lg:block" style={{ height: `${SERVICES.length * 100}vh` }}>
+      {/* Desktop Scroll Experience - reduced from 700vh to 400vh for better UX */}
+      <div ref={containerRef} className="relative hidden lg:block" style={{ height: '400vh' }}>
         <div className="sticky top-0 h-screen overflow-hidden bg-black will-change-transform pt-8 lg:pt-12">
           <div className="absolute inset-0">
             {!prefersReducedMotion && (

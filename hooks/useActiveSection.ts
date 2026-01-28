@@ -1,6 +1,8 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+
+import { throttle } from '@/lib/utils'
 
 export const useActiveSection = (sectionIds: readonly string[]): string => {
   const [activeSection, setActiveSection] = useState<string>('')
@@ -22,11 +24,17 @@ export const useActiveSection = (sectionIds: readonly string[]): string => {
     }
   }, [sectionIds])
 
+  // Throttle scroll handler to 60fps max
+  const throttledHandleScroll = useMemo(
+    () => throttle(handleScroll, 16),
+    [handleScroll]
+  )
+
   useEffect(() => {
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [handleScroll])
+    handleScroll() // Initial check
+    window.addEventListener('scroll', throttledHandleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', throttledHandleScroll)
+  }, [handleScroll, throttledHandleScroll])
 
   return activeSection
 }

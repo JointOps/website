@@ -11,6 +11,13 @@ export interface ProjectCategory {
   color: string
 }
 
+export interface ProjectLinks {
+  docs?: string
+  npm?: string
+  npmBun?: string
+  github?: string
+}
+
 export interface Project {
   id: string
   title: string
@@ -22,9 +29,11 @@ export interface Project {
   thumbnail: string | null
   color: string
   featured: boolean
-  link: string | null
+  link?: string | null
+  links?: ProjectLinks
   year: string
   status: ProjectStatus
+  relevantFor?: string[]
 }
 
 export interface ProjectsData {

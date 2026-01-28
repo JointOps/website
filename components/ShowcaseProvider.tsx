@@ -1,5 +1,7 @@
 'use client'
 
+import { useMemo } from 'react'
+
 import { useDrawer } from '@/contexts'
 import { useTestimonialDrawer } from '@/hooks/useTestimonialDrawer'
 import testimonials from '@/data/testimonials.json'
@@ -7,36 +9,30 @@ import projectsData from '@/data/projects.json'
 import type { Testimonial } from '@/types/testimonials'
 import type { ProjectsData } from '@/types/projects'
 
-import { ShowcaseTrigger } from './ui/ShowcaseTrigger'
 import { TestimonialDrawer } from './ui/TestimonialDrawer'
 import { ProjectDrawer } from './ui/ProjectDrawer'
 
 const { projects, categories } = projectsData as ProjectsData
+const typedTestimonials = testimonials as Testimonial[]
+
+// Pre-compute sorted data at module level (runs once)
+const sortedTestimonials = [...typedTestimonials]
+  .sort((a, b) => b.priority - a.priority)
+  .slice(0, 30)
+
+const sortedProjects = [...projects]
+  .sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
 
 export const ShowcaseProvider = () => {
-  const { isProjectOpen, closeProjects, openProjects } = useDrawer()
-  const { isOpen: isTestimonialOpen, toggle: toggleTestimonials, close: closeTestimonials } = useTestimonialDrawer()
+  const { isProjectOpen, closeProjects } = useDrawer()
+  const { isOpen: isTestimonialOpen, close: closeTestimonials } = useTestimonialDrawer()
 
-  const typedTestimonials = testimonials as Testimonial[]
-  const topTestimonials = typedTestimonials
-    .sort((a, b) => b.priority - a.priority)
-    .slice(0, 30)
-
-  const averageRating = 5.0
-  const totalReviews = typedTestimonials.length
-
-  // Sort featured projects first
-  const sortedProjects = [...projects].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
+  // Memoize to prevent unnecessary re-renders (data is already sorted at module level)
+  const topTestimonials = useMemo(() => sortedTestimonials, [])
+  const memoizedProjects = useMemo(() => sortedProjects, [])
 
   return (
     <>
-      <ShowcaseTrigger
-        onProjectsClick={openProjects}
-        onReviewsClick={toggleTestimonials}
-        totalReviews={totalReviews}
-        averageRating={averageRating}
-      />
-
       <TestimonialDrawer
         isOpen={isTestimonialOpen}
         onClose={closeTestimonials}
@@ -47,7 +43,7 @@ export const ShowcaseProvider = () => {
       <ProjectDrawer
         isOpen={isProjectOpen}
         onClose={closeProjects}
-        projects={sortedProjects}
+        projects={memoizedProjects}
         categories={categories}
         initialIndex={0}
         initialCategory="all"

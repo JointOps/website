@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from 'framer-motion'
 import Image from 'next/image'
 
 import testimonialData from '@/data/testimonials.json'
@@ -13,12 +13,11 @@ const testimonials = testimonialData as Testimonial[]
 // Get top testimonials by priority
 const topTestimonials = [...testimonials]
   .sort((a, b) => b.priority - a.priority)
-  .slice(0, 24)
+  .slice(0, 16)
 
-// Split into 3 rows for marquee
+// Split into 2 rows for marquee
 const row1 = topTestimonials.slice(0, 8)
 const row2 = topTestimonials.slice(8, 16)
-const row3 = topTestimonials.slice(16, 24)
 
 // Marquee testimonial card
 const MarqueeCard = ({
@@ -110,7 +109,7 @@ const MarqueeCard = ({
   )
 }
 
-// Infinite marquee row with CSS animation
+// Infinite marquee row with CSS animation - pauses when off-screen
 const MarqueeRow = ({
   testimonials,
   direction = 'left',
@@ -122,11 +121,15 @@ const MarqueeRow = ({
   speed?: number
   onCardClick: (index: number) => void
 }) => {
+  const rowRef = useRef<HTMLDivElement>(null)
+  // Pause animation when not in view to save CPU/GPU
+  const isInView = useInView(rowRef, { margin: '100px' })
+
   // Duplicate testimonials for seamless loop
   const duplicated = [...testimonials, ...testimonials]
 
   return (
-    <div className="relative overflow-hidden py-3">
+    <div ref={rowRef} className="relative overflow-hidden py-3">
       {/* Gradient masks */}
       <div className="absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-black to-transparent pointer-events-none" />
       <div className="absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-black to-transparent pointer-events-none" />
@@ -136,6 +139,7 @@ const MarqueeRow = ({
         style={{
           animationDuration: `${speed}s`,
           width: 'max-content',
+          animationPlayState: isInView ? 'running' : 'paused', // Pause when off-screen
         }}
       >
         {duplicated.map((testimonial, i) => (
@@ -411,7 +415,6 @@ export const Testimonials = () => {
         <div className="relative mb-16 space-y-4">
           <MarqueeRow testimonials={row1} direction="left" speed={40} onCardClick={(i) => handleCardClick(i)} />
           <MarqueeRow testimonials={row2} direction="right" speed={35} onCardClick={(i) => handleCardClick(i + 8)} />
-          <MarqueeRow testimonials={row3} direction="left" speed={45} onCardClick={(i) => handleCardClick(i + 16)} />
         </div>
 
         {/* Stunning CTA Button */}

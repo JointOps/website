@@ -2,10 +2,11 @@
 
 import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'framer-motion'
 import Link from 'next/link'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 
 import { NAV_LINKS } from '@/constants'
-import { useActiveSection, useScrollDirection } from '@/hooks'
+import { useScroll } from '@/contexts'
+import { useActiveSection } from '@/hooks'
 import { cn } from '@/lib/utils'
 
 import { Logo } from '../icons'
@@ -14,22 +15,14 @@ import { MobileMenu } from './MobileMenu'
 
 export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const navRef = useRef<HTMLDivElement>(null)
-  const scrollDirection = useScrollDirection()
+
+  // Use global scroll context instead of multiple listeners
+  const { scrollDirection, isScrolled } = useScroll()
   const activeSection = useActiveSection(['hero', 'services', 'projects', 'testimonials', 'why-jointops', 'contact'])
 
   const isHidden = scrollDirection === 'down' && isScrolled
-
-  // Track scroll for background effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   // Mouse position for spotlight effect
   const mouseX = useMotionValue(0)
@@ -103,35 +96,11 @@ export const Header = () => {
             }}
           />
 
-          {/* Aurora glow blobs */}
+          {/* Static glow blobs - removed continuous animations for performance */}
           {isScrolled && (
             <>
-              <motion.div
-                className="absolute -left-20 -top-20 h-40 w-40 rounded-full bg-accent/20 blur-3xl"
-                animate={{
-                  scale: [1, 1.2, 1],
-                  opacity: [0.3, 0.5, 0.3],
-                  x: [0, 20, 0],
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              />
-              <motion.div
-                className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-cyan-500/20 blur-3xl"
-                animate={{
-                  scale: [1.2, 1, 1.2],
-                  opacity: [0.5, 0.3, 0.5],
-                  x: [0, -20, 0],
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              />
+              <div className="absolute -left-20 -top-20 h-40 w-40 rounded-full bg-accent/30 blur-3xl opacity-40" />
+              <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-cyan-500/30 blur-3xl opacity-30" />
             </>
           )}
 

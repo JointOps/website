@@ -76,24 +76,6 @@ export const Hero = () => {
                 ease: 'easeInOut',
               }}
             />
-
-            {/* Floating orbs - reduced to 3 for performance */}
-            {[...Array(3)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute h-2 w-2 rounded-full bg-accent/40 blur-sm"
-                style={{
-                  left: `${20 + i * 25}%`,
-                  top: `${30 + (i % 2) * 20}%`,
-                }}
-                animate={{ y: [0, -60, 0], opacity: [0.3, 0.6, 0.3] }}
-                transition={{
-                  duration: 15 + i * 5,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              />
-            ))}
           </>
         )}
 

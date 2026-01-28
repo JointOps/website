@@ -1,7 +1,8 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
+import { throttle } from '@/lib/utils'
 import type { ScrollDirection } from '@/types'
 
 export const useScrollDirection = (): ScrollDirection => {
@@ -20,10 +21,16 @@ export const useScrollDirection = (): ScrollDirection => {
     lastScrollY.current = currentScrollY
   }, [])
 
+  // Throttle scroll handler to 60fps max
+  const throttledHandleScroll = useMemo(
+    () => throttle(handleScroll, 16),
+    [handleScroll]
+  )
+
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [handleScroll])
+    window.addEventListener('scroll', throttledHandleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', throttledHandleScroll)
+  }, [throttledHandleScroll])
 
   return scrollDirection
 }

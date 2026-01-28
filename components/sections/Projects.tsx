@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion'
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion'
 
 import projectData from '@/data/projects.json'
 import { ProjectDrawer } from '@/components/ui/ProjectDrawer'
@@ -9,36 +9,6 @@ import type { Project, ProjectCategory } from '@/types/projects'
 
 const projects = projectData.projects as Project[]
 const categories = projectData.categories as ProjectCategory[]
-
-// Floating particles component
-const FloatingParticles = ({ color }: { color: string }) => {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(20)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 rounded-full"
-          style={{
-            backgroundColor: color,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0, 0.6, 0],
-            scale: [0, 1.5, 0],
-          }}
-          transition={{
-            duration: 3 + Math.random() * 2,
-            repeat: Infinity,
-            delay: Math.random() * 2,
-            ease: 'easeInOut',
-          }}
-        />
-      ))}
-    </div>
-  )
-}
 
 // Animated counter component
 const AnimatedCounter = ({ value, color }: { value: string; color: string }) => {
@@ -175,10 +145,6 @@ const HeroProjectCard = ({
             animate={{ opacity: isHovered ? 0.8 : 0.3 }}
           />
 
-          {/* Floating particles */}
-          <AnimatePresence>
-            {isHovered && <FloatingParticles color={project.color} />}
-          </AnimatePresence>
         </div>
 
         {/* Glow orbs */}

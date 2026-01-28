@@ -1,44 +1,51 @@
 {
   "projects": [
     {
-      "id": "honeycomb-protocol",
-      "title": "Honeycomb Protocol",
-      "tagline": "Protocol infrastructure for blockchain gaming",
-      "category": "blockchain-infrastructure",
-      "description": "Built the core protocol infrastructure that blockchain games run on. Not a wrapper or SDK — actual protocol-level Solana programs handling asset management, player profiles, and on-chain game state. Multiple game studios now build on top of this foundation.",
+      "id": "hitlimit",
+      "title": "HitLimit",
+      "tagline": "The fastest way to say no",
+      "category": "developer-tools",
+      "description": "High-performance rate limiting middleware for modern web frameworks. 2-7M ops/sec with memory store, sub-millisecond latency, and native Bun support. Zero runtime dependencies, ~7KB bundle size, and built-in SaaS tier support. What takes competitors 25+ lines, HitLimit does in 8.",
       "metrics": [
-        { "label": "Type", "value": "Protocol-Level" },
-        { "label": "Studios", "value": "15+" },
-        { "label": "Chain", "value": "Solana" }
+        { "label": "Performance", "value": "2-7M ops/sec" },
+        { "label": "Bundle", "value": "~7KB" },
+        { "label": "License", "value": "MIT" }
       ],
-      "technologies": ["Solana", "Rust", "TypeScript", "Anchor"],
+      "technologies": ["TypeScript", "Node.js", "Bun", "Express", "NestJS"],
       "thumbnail": null,
-      "color": "#FFB800",
+      "color": "#EF4444",
       "featured": true,
-      "link": "https://docs.honeycombprotocol.com",
-      "year": "2023",
+      "links": {
+        "docs": "https://hitlimit.jointops.dev",
+        "npm": "https://www.npmjs.com/package/@joint-ops/hitlimit",
+        "npmBun": "https://www.npmjs.com/package/@joint-ops/hitlimit-bun"
+      },
+      "year": "2024",
       "status": "live",
-      "relevantFor": ["web3"]
+      "relevantFor": ["web2"]
     },
     {
-      "id": "gameshift",
-      "title": "GameShift",
-      "tagline": "Developer platform for Web3 game integration",
+      "id": "kaput",
+      "title": "Kaput",
+      "tagline": "Zero-config graceful shutdown",
       "category": "developer-tools",
-      "description": "Built the developer platform that makes blockchain integration painless for game studios. Comprehensive APIs for wallet connection, NFT mechanics, in-game economies, and asset management — all production-ready and battle-tested.",
+      "description": "Graceful shutdown for Node.js without the boilerplate. One import, zero config. Auto-detects HTTP servers, databases, and message queues. Kubernetes-ready health checks out of the box. Supports Express, Fastify, Prisma, Redis, BullMQ, Mongoose, and Knex. 50+ lines of shutdown logic, gone.",
       "metrics": [
-        { "label": "API Endpoints", "value": "50+" },
-        { "label": "Game Studios", "value": "Active" },
-        { "label": "Documentation", "value": "Complete" }
+        { "label": "Setup", "value": "One Line" },
+        { "label": "Config", "value": "Zero" },
+        { "label": "License", "value": "MIT" }
       ],
-      "technologies": ["TypeScript", "REST APIs", "Solana", "Node.js"],
+      "technologies": ["TypeScript", "Node.js", "Kubernetes"],
       "thumbnail": null,
-      "color": "#6366F1",
+      "color": "#8B5CF6",
       "featured": true,
-      "link": "https://docs.gameshift.dev",
-      "year": "2023",
+      "links": {
+        "docs": "https://kaput.jointops.dev",
+        "npm": "https://www.npmjs.com/package/@joint-ops/kaput"
+      },
+      "year": "2024",
       "status": "live",
-      "relevantFor": ["web3", "web2"]
+      "relevantFor": ["web2"]
     },
     {
       "id": "career-ai",
@@ -74,31 +81,51 @@
       "technologies": ["TypeScript", "Bun", "Node.js"],
       "thumbnail": null,
       "color": "#06B6D4",
-      "featured": false,
+      "featured": true,
       "link": "https://bunwaylabs.github.io/bunway/",
       "year": "2024",
       "status": "live",
       "relevantFor": ["web2"]
     },
     {
-      "id": "hitlimit",
-      "title": "HitLimit",
-      "tagline": "Rate Limiting in One Line",
-      "category": "developer-tools",
-      "description": "Rate limiting shouldn't require a PhD. HitLimit is a simple, effective rate limiting package for Node.js applications. One line to add, zero configuration headaches.",
+      "id": "honeycomb-protocol",
+      "title": "Honeycomb Protocol",
+      "tagline": "Protocol infrastructure for blockchain gaming",
+      "category": "blockchain-infrastructure",
+      "description": "Built the core protocol infrastructure that blockchain games run on. Not a wrapper or SDK — actual protocol-level Solana programs handling asset management, player profiles, and on-chain game state. Multiple game studios now build on top of this foundation.",
       "metrics": [
-        { "label": "License", "value": "Open Source" },
-        { "label": "Setup", "value": "One Line" },
-        { "label": "Platform", "value": "npm" }
+        { "label": "Type", "value": "Protocol-Level" },
+        { "label": "Studios", "value": "15+" },
+        { "label": "Chain", "value": "Solana" }
       ],
-      "technologies": ["TypeScript", "Node.js"],
+      "technologies": ["Solana", "Rust", "TypeScript", "Anchor"],
       "thumbnail": null,
-      "color": "#EF4444",
+      "color": "#FFB800",
       "featured": false,
-      "link": null,
-      "year": "2024",
+      "link": "https://docs.honeycombprotocol.com",
+      "year": "2023",
       "status": "live",
-      "relevantFor": ["web2"]
+      "relevantFor": ["web3"]
+    },
+    {
+      "id": "gameshift",
+      "title": "GameShift",
+      "tagline": "Developer platform for Web3 game integration",
+      "category": "developer-tools",
+      "description": "Built the developer platform that makes blockchain integration painless for game studios. Comprehensive APIs for wallet connection, NFT mechanics, in-game economies, and asset management — all production-ready and battle-tested.",
+      "metrics": [
+        { "label": "API Endpoints", "value": "50+" },
+        { "label": "Game Studios", "value": "Active" },
+        { "label": "Documentation", "value": "Complete" }
+      ],
+      "technologies": ["TypeScript", "REST APIs", "Solana", "Node.js"],
+      "thumbnail": null,
+      "color": "#6366F1",
+      "featured": false,
+      "link": "https://docs.gameshift.dev",
+      "year": "2023",
+      "status": "live",
+      "relevantFor": ["web3", "web2"]
     },
     {
       "id": "nft-ecosystem",
@@ -125,9 +152,9 @@
       "title": "Client Projects",
       "tagline": "From startups to enterprises across 30+ countries",
       "category": "web-apps",
-      "description": "Years of completed projects with a perfect 5.0 rating on Fiverr. Clients from 30+ countries. From quick fixes to full-scale platforms, we've delivered across every timezone. Each project added to our expertise, each client became a reference.",
+      "description": "Years of completed projects with a 4.8 rating on Fiverr. Clients from 30+ countries. From quick fixes to full-scale platforms, we've delivered across every timezone. Each project added to our expertise, each client became a reference.",
       "metrics": [
-        { "label": "Rating", "value": "5.0" },
+        { "label": "Rating", "value": "4.8" },
         { "label": "Countries", "value": "30+" },
         { "label": "Platform", "value": "Fiverr" }
       ],

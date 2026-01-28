@@ -5,7 +5,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { inter, spaceGrotesk } from '@/lib/fonts'
 import { ErrorBoundary, SkipToContent } from '@/components/ui'
 import { StructuredData } from '@/components/StructuredData'
-import { DrawerProvider } from '@/contexts'
+import { DrawerProvider, ScrollProvider } from '@/contexts'
 import { ShowcaseProvider } from '@/components/ShowcaseProvider'
 
 import './globals.css'
@@ -120,13 +120,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StructuredData />
       </head>
       <body className="bg-background font-sans text-foreground antialiased">
-        <DrawerProvider>
-          <ErrorBoundary>
-            <SkipToContent />
-            {children}
-            <ShowcaseProvider />
-          </ErrorBoundary>
-        </DrawerProvider>
+        <ScrollProvider>
+          <DrawerProvider>
+            <ErrorBoundary>
+              <SkipToContent />
+              {children}
+              <ShowcaseProvider />
+            </ErrorBoundary>
+          </DrawerProvider>
+        </ScrollProvider>
         <Analytics />
         <SpeedInsights />
       </body>
