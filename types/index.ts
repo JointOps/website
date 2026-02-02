@@ -40,6 +40,7 @@ export interface SocialLinks {
   readonly twitter: string
   readonly github: string
   readonly linkedin: string
+  readonly discord: string
 }
 
 export type AnimationVariant = 'hidden' | 'visible'

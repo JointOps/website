@@ -1,5 +1,6 @@
 export { ArrowRight } from './ArrowRight'
 export { Close } from './Close'
+export { Discord } from './Discord'
 export { GitHub } from './GitHub'
 export { LinkedIn } from './LinkedIn'
 export { Logo } from './Logo'

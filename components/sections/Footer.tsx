@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 import { SOCIAL_LINKS } from '@/constants'
 
-import { GitHub, LinkedIn, Logo, Twitter } from '../icons'
+import { Discord, GitHub, LinkedIn, Logo, Twitter } from '../icons'
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear()
@@ -90,6 +90,17 @@ export const Footer = () => {
               aria-label="LinkedIn"
             >
               <LinkedIn className="h-4 w-4" />
+            </motion.a>
+            <motion.a
+              href={SOCIAL_LINKS.discord}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.06] bg-white/[0.02] text-white/40 backdrop-blur-xl transition-all duration-300 hover:border-white/[0.12] hover:bg-white/[0.04] hover:text-white/70"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Discord"
+            >
+              <Discord className="h-4 w-4" />
             </motion.a>
           </motion.div>
         </div>

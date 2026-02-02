@@ -12,6 +12,7 @@ export const SOCIAL_LINKS: SocialLinks = {
   twitter: 'https://x.com/jointops_',
   github: 'https://github.com/jointops',
   linkedin: 'https://www.linkedin.com/company/jointops/',
+  discord: 'https://discord.gg/fTF4qjaMFT'
 } as const
 
 export const CONTACT_EMAIL = 'hello@jointops.dev' as const
