@@ -2,32 +2,17 @@
 
 ## Overview
 - **Total testimonials**: 69
-- **Source**: https://www.jointops.dev/api/reviews
 - **Average rating**: 5 stars
 - **Countries**: 20+ countries (US, GB, DE, PK, etc.)
 - **Platform**: Primarily Fiverr reviews
 
-## Processing Applied
-
-All testimonials have been automatically rephrased to reference **Joint Ops** as a team/company instead of individual names:
-
-### Replacements Made:
-- "Joint Ops" → "Joint Ops"
-- "the seller" → "the team"
-- "this guy" → "this team"
-- "this developer" → "this team"
-- "he/him/his" → "they/them/their"
-- "he is" → "they are"
-- "he was" → "they were"
-- Personal references → Team/company references
-
-### Data Structure
+## Data Structure
 
 Each testimonial includes:
 ```typescript
 {
   id: number
-  review: string              // Full review text (rephrased)
+  review: string              // Full review text
   by: string                 // Reviewer username
   by_image: string | null    // Profile picture URL
   country: string            // Country code (US, GB, etc.)
@@ -65,4 +50,3 @@ const topTestimonials = testimonials
 - Reviewers from 20+ countries
 - Mix of short and detailed reviews
 - Some include video testimonials
-- All professionally rephrased for company branding
