@@ -97,6 +97,7 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: 'JointOps - Web Development Agency & Blockchain Development Studio',
+        type: 'image/png',
       },
     ],
   },
@@ -107,7 +108,14 @@ export const metadata: Metadata = {
     title: 'JointOps | Web Development Agency | Blockchain & Solana Developers',
     description:
       'Premier web development agency and blockchain studio. Expert Solana developers, React/Next.js engineers. 100+ projects, 4.8 rating. Build with the best.',
-    images: ['/og-image.png'],
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'JointOps - Web Development Agency & Blockchain Development Studio',
+      },
+    ],
   },
   robots: {
     index: true,
